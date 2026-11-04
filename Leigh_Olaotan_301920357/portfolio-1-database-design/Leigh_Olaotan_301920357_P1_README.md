@@ -1,7 +1,9 @@
 # Portfolio 1: Database Design and Modelling
 
-Case study, relational design, ER diagram, normalisation, schema and integrity evidence.
+Harbour Office Supplies is the shared case for the five portfolio components.
 
 ## Current evidence
 
-This component currently contains its introductory documentation. No implementation or test result is claimed at this checkpoint.
+- [Case study and business rules](Leigh_Olaotan_301920357_P1_CaseStudy.md): users, operations, scope and BR01-BR09.
+
+The case supports multi-product orders, historical prices, stock reservations, cancellation and full payment records. The relational design and its implementation evidence follow in subsequent checkpoints. No implementation or database test result is claimed here.

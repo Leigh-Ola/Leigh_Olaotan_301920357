@@ -1,20 +1,22 @@
 # MIT 8103 Advanced Database Systems Portfolio
 
-Student: Olaotan Leigh  
-Student ID: 301920357  
+Student: Olaotan Leigh
+
+Student ID: 301920357
+
 Academic session: 2026/2027, first semester
 
-This private repository records the practical database portfolio and its supporting evidence. The identity-named folder contains assessment deliverables. Temporary planning, downloaded references, working drafts, logs and local database runtime files are excluded by the root Git ignore rules.
+The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_301920357) records the practical database portfolio and its supporting evidence. The identity-named folder contains assessment deliverables. Temporary planning, downloaded references, working drafts, logs and local database runtime files are excluded by the root Git ignore rules.
 
 ## Case study
 
-The case study is documented at the next development checkpoint. This initial version establishes the portfolio structure.
+[Harbour Office Supplies](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_CaseStudy.md) is a fictional Nigerian online stationery shop with one stockroom. It provides a shared case for relational design, SQL reporting, stock transactions, MongoDB order events and the distributed-database discussion.
 
 ## Components
 
 | Component | Documentation | Current evidence |
 | --- | --- | --- |
-| P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Introductory documentation |
+| P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Case study and business rules |
 | P2 | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Introductory documentation |
 | P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Introductory documentation |
 | P4 | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Introductory documentation |
