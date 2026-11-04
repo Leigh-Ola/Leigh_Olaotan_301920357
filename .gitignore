@@ -1,0 +1,10 @@
+# Plans, source downloads, draft tools, logs and runtime data.
+temp/
+
+# Local credentials and machine files.
+.env
+.env.*
+!.env.example
+.DS_Store
+node_modules/
+*.log
