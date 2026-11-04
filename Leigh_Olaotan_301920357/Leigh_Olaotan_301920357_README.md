@@ -16,7 +16,7 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 
 | Component | Documentation | Current evidence |
 | --- | --- | --- |
-| P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Case study, relational design, ER diagram and normalisation |
+| P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Case study, relational design, ER diagram, normalisation and executed SQL schema |
 | P2 | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Introductory documentation |
 | P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Introductory documentation |
 | P4 | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Introductory documentation |
@@ -28,7 +28,7 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 
 ## Current checkpoint
 
-Steps 1-4 are prepared: repository structure, shared case, checked local database services and relational design. Assessed SQL schema creation, seed data, queries, concurrency experiments and MongoDB documents are still to be implemented. The final summary and submission review will use their verified results.
+Steps 1-5 are prepared: repository structure, shared case, checked database services, relational design and executed SQL schema. Seed data, integrity tests, queries, concurrency experiments and MongoDB documents are still to be implemented. The final summary and submission review will use their verified results.
 
 ## Evidence and access
 

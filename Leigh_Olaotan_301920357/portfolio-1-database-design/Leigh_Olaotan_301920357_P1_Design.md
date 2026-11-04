@@ -1,6 +1,6 @@
 # Harbour Office Supplies: relational design
 
-Status: design specification. The assessed tables and business transactions have not yet been implemented or tested.
+Status: the five tables and row/key constraints are implemented in PostgreSQL 17.11. Workflow transactions are deferred to Portfolio 3; seed and rejection tests follow in step 6.
 
 This design implements the rules in [the case study](Leigh_Olaotan_301920357_P1_CaseStudy.md). The five relations are `customer`, `product`, `sales_order`, `order_item` and `payment`. Separating order headers from lines supports several products per order; separating payment allows an unpaid order without an empty payment row.
 
@@ -26,7 +26,7 @@ payment(payment_id PK, order_id FK/UK, payment_reference UK, paid_at, amount)
 | customer_id | BIGINT | Yes | Identity PK | Stable internal customer identifier. |
 | customer_code | VARCHAR(20) | Yes | UK | Nonblank customer-facing identifier. |
 | full_name | VARCHAR(120) | Yes | - | Nonblank name; not assumed unique. |
-| email | VARCHAR(254) | Yes | UK | Nonblank, trimmed, lower-case stored address; uniqueness follows this stated normalisation policy. Full email deliverability checking is outside scope. |
+| email | VARCHAR(254) | Yes | UK | Nonblank, trimmed, lower-case stored address with no whitespace; uniqueness follows this stated normalisation policy. Full email deliverability checking is outside scope. |
 
 ### product
 
@@ -35,7 +35,7 @@ payment(payment_id PK, order_id FK/UK, payment_reference UK, paid_at, amount)
 | product_id | BIGINT | Yes | Identity PK | Stable internal product identifier. |
 | sku | VARCHAR(30) | Yes | UK | Nonblank catalogue identifier. |
 | product_name | VARCHAR(160) | Yes | - | Nonblank display name; not assumed unique. |
-| unit_price | NUMERIC(12,2) | Yes | - | Positive current catalogue price in NGN. |
+| unit_price | NUMERIC(12,2) | Yes | - | Positive finite current catalogue price in NGN. |
 | stock_quantity | INTEGER | Yes | Default 0 | Available units; must be at least zero. |
 | is_active | BOOLEAN | Yes | Default true | Whether a new order may include the product. |
 
@@ -46,9 +46,9 @@ payment(payment_id PK, order_id FK/UK, payment_reference UK, paid_at, amount)
 | order_id | BIGINT | Yes | Identity PK | Stable internal order identifier. |
 | order_number | VARCHAR(30) | Yes | UK | Nonblank customer-facing order reference. |
 | customer_id | BIGINT | Yes | FK to customer.customer_id | Exactly one customer owns the order. |
-| ordered_at | TIMESTAMPTZ | Yes | Default CURRENT_TIMESTAMP | Placement timestamp. |
+| ordered_at | TIMESTAMPTZ | Yes | Default CURRENT_TIMESTAMP | Finite placement timestamp. |
 | order_status | VARCHAR(10) | Yes | Default placed | Restricted to placed or cancelled. |
-| cancelled_at | TIMESTAMPTZ | No | Default NULL | NULL for placed orders; required for cancelled orders and not before ordered_at. |
+| cancelled_at | TIMESTAMPTZ | No | Default NULL | NULL for placed orders; finite and required for cancelled orders, and not before ordered_at. |
 
 ### order_item
 
@@ -57,7 +57,7 @@ payment(payment_id PK, order_id FK/UK, payment_reference UK, paid_at, amount)
 | order_id | BIGINT | Yes | Composite PK; FK to sales_order.order_id | Parent order. |
 | product_id | BIGINT | Yes | Composite PK; FK to product.product_id | Product ordered; at most one line per product in an order. |
 | quantity | INTEGER | Yes | - | Units ordered; greater than zero. |
-| unit_price_at_order | NUMERIC(12,2) | Yes | - | Positive historical unit price captured at placement, retained after catalogue changes. |
+| unit_price_at_order | NUMERIC(12,2) | Yes | - | Positive finite historical unit price captured at placement, retained after catalogue changes. |
 
 ### payment
 
@@ -66,10 +66,10 @@ payment(payment_id PK, order_id FK/UK, payment_reference UK, paid_at, amount)
 | payment_id | BIGINT | Yes | Identity PK | Stable internal payment identifier. |
 | order_id | BIGINT | Yes | FK to sales_order.order_id; UK | At most one successful payment per order. |
 | payment_reference | VARCHAR(40) | Yes | UK | Nonblank unique fictional payment reference. |
-| paid_at | TIMESTAMPTZ | Yes | - | Recorded payment time. Cross-table comparison with ordered_at needs workflow enforcement. |
-| amount | NUMERIC(14,2) | Yes | - | Positive recorded amount in NGN; equality to the line total needs workflow enforcement. |
+| paid_at | TIMESTAMPTZ | Yes | - | Finite recorded payment time. Cross-table comparison with ordered_at needs workflow enforcement. |
+| amount | NUMERIC(14,2) | Yes | - | Positive finite recorded amount in NGN; equality to the line total needs workflow enforcement. |
 
-The only nullable attribute is `sales_order.cancelled_at`. Primary keys are stable; foreign-key deletion should use RESTRICT rather than cascading away history. Child foreign keys alone do not ensure an order has any lines.
+The only nullable attribute is `sales_order.cancelled_at`. Primary keys are stable; foreign-key updates and deletion use RESTRICT to protect referenced history. Child foreign keys alone do not ensure an order has any lines.
 
 ## Relationships and cardinality
 
@@ -96,7 +96,7 @@ The [ER diagram](Leigh_Olaotan_301920357_P1_ERDiagram.md) expresses these busine
 | BR08 | Payment PK; unique order/reference; positive amount; required FK/time. | Lock the same order used by cancellation; verify placed status, amount equals line total and paid_at >= ordered_at before recording payment. |
 | BR09 | Restrict deletion of referenced parents. | Derive payment state; retain history and limit updates/deletes through controlled operations. |
 
-These controls are a specification. Row checks do not enforce sums across child rows or all state transitions. A direct administrator can bypass a workflow by issuing other legal SQL; the later implementation must demonstrate its intended operations and describe access-control limitations. There is no claim of complete production security.
+The row/key controls are implemented; the additional operation controls remain a specification. Row checks do not enforce sums across child rows or all state transitions. A direct administrator can bypass a workflow by issuing other legal SQL; the later implementation must demonstrate its intended operations and describe access-control limitations. There is no claim of complete production security.
 
 ## Design decisions
 
@@ -104,8 +104,8 @@ These controls are a specification. Row checks do not enforce sums across child 
 - The current product price and historical order-line price describe different times. Historical price is deliberately retained; an order is not repriced when the catalogue changes.
 - The order total and paid/unpaid state are derived. The payment amount is retained as the amount actually recorded for that settlement and is checked against the fixed order total.
 - Available stock is stored because order placement must update a shared quantity. With one stockroom, a separate warehouse/inventory table would add no independent fact within this scope.
-- NGN is a case-wide assumption, so a repeated currency column is unnecessary here. Exact decimal types represent amounts; integer quantities exclude fractional units. Payment capacity is finite, so the placement/payment workflow must reject an order total beyond the chosen amount type's range.
-- Timestamps represent events; UTC values can be displayed in Africa/Lagos. `cancelled_at` is conditional information, not a second independent status system.
+- NGN is a case-wide assumption, so a repeated currency column is unnecessary here. Exact decimal types represent amounts; explicit checks exclude PostgreSQL's special NaN value, which would otherwise pass a simple greater-than-zero check; integer quantities exclude fractional units. Payment capacity is finite, so the placement/payment workflow must reject an order total beyond the chosen amount type's range.
+- Finite timestamps represent events; UTC values can be displayed in Africa/Lagos. `cancelled_at` is conditional information, not a second independent status system.
 
 See [normalisation](Leigh_Olaotan_301920357_P1_Normalisation.md) for the dependencies and decomposition supporting this design.
 
@@ -113,4 +113,5 @@ See [normalisation](Leigh_Olaotan_301920357_P1_Normalisation.md) for the depende
 
 - PostgreSQL 17, [data types](https://www.postgresql.org/docs/17/datatype.html): selected integer, decimal and timestamp types.
 - PostgreSQL 17, [constraints](https://www.postgresql.org/docs/17/ddl-constraints.html): primary/foreign/unique keys, required values and limits of row checks.
-- The supplied Miva MIT 8103 assessment, pages 1-4, defines the design evidence required. Codex assisted with this design draft and consistency review; no student execution results are asserted here.
+- PostgreSQL 17, [numeric types](https://www.postgresql.org/docs/17/datatype-numeric.html): exact decimals and special-value comparison semantics.
+- The supplied Miva MIT 8103 assessment, pages 1-4, defines the design evidence required. Codex assisted with design, schema implementation and catalogue verification. Actual local execution is recorded separately; personal student review is still pending.

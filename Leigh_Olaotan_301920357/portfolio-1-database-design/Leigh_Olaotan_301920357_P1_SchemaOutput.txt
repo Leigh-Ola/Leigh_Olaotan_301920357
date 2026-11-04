@@ -1,0 +1,96 @@
+Pager usage is off.
+SET
+     database      |  executed_by  |          executed_at          |                                            version                                             
+-------------------+---------------+-------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_portfolio | mit8103_admin | 2026-11-04 17:41:02.631339+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMIT
+Schema catalogue: compare these 25 attributes with the design dictionary.
+ table_name  | position |     column_name     |        data_type         | required | identity_kind |     default_expression      
+-------------+----------+---------------------+--------------------------+----------+---------------+-----------------------------
+ customer    |        1 | customer_id         | bigint                   | t        | a             | 
+ customer    |        2 | customer_code       | character varying(20)    | t        |               | 
+ customer    |        3 | full_name           | character varying(120)   | t        |               | 
+ customer    |        4 | email               | character varying(254)   | t        |               | 
+ order_item  |        1 | order_id            | bigint                   | t        |               | 
+ order_item  |        2 | product_id          | bigint                   | t        |               | 
+ order_item  |        3 | quantity            | integer                  | t        |               | 
+ order_item  |        4 | unit_price_at_order | numeric(12,2)            | t        |               | 
+ payment     |        1 | payment_id          | bigint                   | t        | a             | 
+ payment     |        2 | order_id            | bigint                   | t        |               | 
+ payment     |        3 | payment_reference   | character varying(40)    | t        |               | 
+ payment     |        4 | paid_at             | timestamp with time zone | t        |               | 
+ payment     |        5 | amount              | numeric(14,2)            | t        |               | 
+ product     |        1 | product_id          | bigint                   | t        | a             | 
+ product     |        2 | sku                 | character varying(30)    | t        |               | 
+ product     |        3 | product_name        | character varying(160)   | t        |               | 
+ product     |        4 | unit_price          | numeric(12,2)            | t        |               | 
+ product     |        5 | stock_quantity      | integer                  | t        |               | 0
+ product     |        6 | is_active           | boolean                  | t        |               | true
+ sales_order |        1 | order_id            | bigint                   | t        | a             | 
+ sales_order |        2 | order_number        | character varying(30)    | t        |               | 
+ sales_order |        3 | customer_id         | bigint                   | t        |               | 
+ sales_order |        4 | ordered_at          | timestamp with time zone | t        |               | CURRENT_TIMESTAMP
+ sales_order |        5 | order_status        | character varying(10)    | t        |               | 'placed'::character varying
+ sales_order |        6 | cancelled_at        | timestamp with time zone | f        |               | 
+(25 rows)
+
+Named constraints: p=primary, u=unique, f=foreign, c=check.
+ table_name  |         constraint_name         | kind |                                                                                                          definition                                                                                                          
+-------------+---------------------------------+------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ customer    | ck_customer_code_nonblank       | c    | CHECK (((customer_code)::text ~ '[^[:space:]]'::text))
+ customer    | ck_customer_email_normalised    | c    | CHECK ((((email)::text ~ '[^[:space:]]'::text) AND ((email)::text = lower(btrim((email)::text))) AND ((email)::text !~ '[[:space:]]'::text)))
+ customer    | ck_customer_name_nonblank       | c    | CHECK (((full_name)::text ~ '[^[:space:]]'::text))
+ customer    | pk_customer                     | p    | PRIMARY KEY (customer_id)
+ customer    | uq_customer_code                | u    | UNIQUE (customer_code)
+ customer    | uq_customer_email               | u    | UNIQUE (email)
+ order_item  | ck_order_item_price_positive    | c    | CHECK (((unit_price_at_order > (0)::numeric) AND (unit_price_at_order <> 'NaN'::numeric)))
+ order_item  | ck_order_item_quantity_positive | c    | CHECK ((quantity > 0))
+ order_item  | fk_order_item_order             | f    | FOREIGN KEY (order_id) REFERENCES sales_order(order_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+ order_item  | fk_order_item_product           | f    | FOREIGN KEY (product_id) REFERENCES product(product_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+ order_item  | pk_order_item                   | p    | PRIMARY KEY (order_id, product_id)
+ payment     | ck_payment_amount_positive      | c    | CHECK (((amount > (0)::numeric) AND (amount <> 'NaN'::numeric)))
+ payment     | ck_payment_reference_nonblank   | c    | CHECK (((payment_reference)::text ~ '[^[:space:]]'::text))
+ payment     | ck_payment_time_finite          | c    | CHECK (isfinite(paid_at))
+ payment     | fk_payment_order                | f    | FOREIGN KEY (order_id) REFERENCES sales_order(order_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+ payment     | pk_payment                      | p    | PRIMARY KEY (payment_id)
+ payment     | uq_payment_order                | u    | UNIQUE (order_id)
+ payment     | uq_payment_reference            | u    | UNIQUE (payment_reference)
+ product     | ck_product_name_nonblank        | c    | CHECK (((product_name)::text ~ '[^[:space:]]'::text))
+ product     | ck_product_price_positive       | c    | CHECK (((unit_price > (0)::numeric) AND (unit_price <> 'NaN'::numeric)))
+ product     | ck_product_sku_nonblank         | c    | CHECK (((sku)::text ~ '[^[:space:]]'::text))
+ product     | ck_product_stock_nonnegative    | c    | CHECK ((stock_quantity >= 0))
+ product     | pk_product                      | p    | PRIMARY KEY (product_id)
+ product     | uq_product_sku                  | u    | UNIQUE (sku)
+ sales_order | ck_sales_order_cancellation     | c    | CHECK (((((order_status)::text <> 'placed'::text) OR (cancelled_at IS NULL)) AND (((order_status)::text <> 'cancelled'::text) OR ((cancelled_at IS NOT NULL) AND isfinite(cancelled_at) AND (cancelled_at >= ordered_at)))))
+ sales_order | ck_sales_order_number_nonblank  | c    | CHECK (((order_number)::text ~ '[^[:space:]]'::text))
+ sales_order | ck_sales_order_status           | c    | CHECK (((order_status)::text = ANY ((ARRAY['placed'::character varying, 'cancelled'::character varying])::text[])))
+ sales_order | ck_sales_order_time_finite      | c    | CHECK (isfinite(ordered_at))
+ sales_order | fk_sales_order_customer         | f    | FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+ sales_order | pk_sales_order                  | p    | PRIMARY KEY (order_id)
+ sales_order | uq_sales_order_number           | u    | UNIQUE (order_number)
+(31 rows)
+
+Initial indexes: only those supporting the primary and unique keys.
+  tablename  |       indexname       |                                          indexdef                                          
+-------------+-----------------------+--------------------------------------------------------------------------------------------
+ customer    | pk_customer           | CREATE UNIQUE INDEX pk_customer ON public.customer USING btree (customer_id)
+ customer    | uq_customer_code      | CREATE UNIQUE INDEX uq_customer_code ON public.customer USING btree (customer_code)
+ customer    | uq_customer_email     | CREATE UNIQUE INDEX uq_customer_email ON public.customer USING btree (email)
+ order_item  | pk_order_item         | CREATE UNIQUE INDEX pk_order_item ON public.order_item USING btree (order_id, product_id)
+ payment     | pk_payment            | CREATE UNIQUE INDEX pk_payment ON public.payment USING btree (payment_id)
+ payment     | uq_payment_order      | CREATE UNIQUE INDEX uq_payment_order ON public.payment USING btree (order_id)
+ payment     | uq_payment_reference  | CREATE UNIQUE INDEX uq_payment_reference ON public.payment USING btree (payment_reference)
+ product     | pk_product            | CREATE UNIQUE INDEX pk_product ON public.product USING btree (product_id)
+ product     | uq_product_sku        | CREATE UNIQUE INDEX uq_product_sku ON public.product USING btree (sku)
+ sales_order | pk_sales_order        | CREATE UNIQUE INDEX pk_sales_order ON public.sales_order USING btree (order_id)
+ sales_order | uq_sales_order_number | CREATE UNIQUE INDEX uq_sales_order_number ON public.sales_order USING btree (order_number)
+(11 rows)
+

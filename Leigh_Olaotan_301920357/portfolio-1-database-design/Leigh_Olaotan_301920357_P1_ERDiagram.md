@@ -1,6 +1,6 @@
 # Harbour Office Supplies: ER diagram
 
-This logical diagram matches the [data dictionary](Leigh_Olaotan_301920357_P1_Design.md). It describes the business design; the SQL tables are not yet implemented.
+This logical diagram matches the [data dictionary](Leigh_Olaotan_301920357_P1_Design.md). Its five tables and attributes are implemented in SQL. Minimum-line participation remains a workflow rule, as explained below.
 
 [Open the rendered SVG diagram](Leigh_Olaotan_301920357_P1_ERDiagram.svg). It was exported from the Mermaid source below using Mermaid 11.17.2 and visually checked locally.
 
