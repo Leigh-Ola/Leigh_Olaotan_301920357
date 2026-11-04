@@ -22,6 +22,10 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 | P4 | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Introductory documentation |
 | P5 | [Distributed and Cloud Database Exercise](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Introductory documentation |
 
+## Environment
+
+[Setup and connection instructions](Leigh_Olaotan_301920357_Setup.md) describe the local PostgreSQL and MongoDB services. [Recorded environment checks](Leigh_Olaotan_301920357_EnvironmentChecks.txt) establish connectivity and versions; they do not claim portfolio implementation results.
+
 ## Evidence and access
 
 Scripts, actual outputs and explanations belong with their component. The repository history records changes as work is completed. Assessor access must be arranged before submission; no assessor has been invited at this checkpoint.

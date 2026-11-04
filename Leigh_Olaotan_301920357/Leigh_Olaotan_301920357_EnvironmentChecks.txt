@@ -1,0 +1,57 @@
+MIT 8103 local environment checks
+Student: Olaotan Leigh | Student ID: 301920357
+Observed UTC: 2026-11-04T16:32:10.608021+00:00
+Observed local timezone: Africa/Lagos (UTC+01:00)
+Executed by Codex on the student workstation; not a claim of student review.
+Trailing whitespace in captured command output is removed for Git; values are unchanged.
+Only service/connection checks were run. No assessed schema or MongoDB documents were created.
+PostgreSQL TCP authentication is tested inside the container; the host binding is inspected separately.
+MongoDB check runs ping and buildInfo against admin; it does not read user records.
+
+Host architecture
+Darwin arm64
+
+macOS version
+26.3.1
+
+Docker client
+Docker version 29.8.2, build 7fc2dff
+
+Docker server
+29.8.2
+
+PostgreSQL container state and health
+running healthy
+
+PostgreSQL host port binding
+127.0.0.1:55432
+
+PostgreSQL image digest
+postgres@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b
+
+PostgreSQL password-authenticated TCP connection inside container
+version
+------------------------------------------------------------------------------------------------
+ PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+ current_database  | current_user  | connection_check
+-------------------+---------------+------------------
+ mit8103_portfolio | mit8103_admin |                1
+(1 row)
+
+ public_tables
+---------------
+             0
+(1 row)
+
+MongoDB shell client version
+2.12.0
+
+MongoDB server read-only check using the installed Node driver
+{
+  "observedAt": "2026-11-04T16:32:11.248Z",
+  "endpoint": "127.0.0.1:27017",
+  "serverVersion": "7.0.43",
+  "ping": 1
+}
