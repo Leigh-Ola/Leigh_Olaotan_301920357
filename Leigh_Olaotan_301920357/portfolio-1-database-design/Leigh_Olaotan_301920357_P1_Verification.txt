@@ -1,0 +1,40 @@
+Harbour Office Supplies: step 5-6 independent replay and guard verification
+Executed: 2026-11-04T17:46:14.842476+00:00
+Primary database: mit8103_portfolio
+Isolated fresh verification database: mit8103_p1_replay_20261104
+PostgreSQL: PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+SHA256 Leigh_Olaotan_301920357_P1_Schema.sql 31201c214247a5097628ab6d4d4abe11af2d117958c0c4013fe25f0b85f255eb
+SHA256 Leigh_Olaotan_301920357_P1_SeedData.sql 352ef7b1f81cdb693f0995f3983211b0057007314282bf2d1a94d1a0c4c72805
+SHA256 Leigh_Olaotan_301920357_P1_ConstraintTests.sql eb6e8ca414cf38eb364e0158ab2047d8ca91b8621b8a69fa493824f338955b31
+PASS: created a new empty verification database; no existing database reset.
+PASS: saved schema script replayed successfully (exit 0).
+Verification-only identity starts: customer=1001, product=2001, order=3001, payment=4001.
+PASS: seed replayed with different generated IDs (exit 0).
+NOTICE:  PASS: 39 fixture rows; all orders have lines; payments reconcile; stock snapshot reconciles.
+PASS: every business field and relationship matches the primary 39-row fixture, independent of generated IDs.
+PASS: constraint suite replayed (exit 0). Actual summary follows:
+Workflow gaps are explicitly separate from successful integrity checks.
+     category      |    outcome    | tests 
+-------------------+---------------+-------
+ REJECTION         | PASS          |    78
+ STATE_CHECK       | PASS          |     1
+ VALID_BOUNDARY    | PASS          |     8
+ WORKFLOW_BOUNDARY | GAP CONFIRMED |     6
+(4 rows)
+
+ named_constraints_tested | required_columns_tested 
+--------------------------+-------------------------
+                       31 |                      24
+(1 row)
+
+ROLLBACK
+Test transaction rolled back. Seed rows retained; sequence gaps are normal and are not reset.
+PASS: independent post-session snapshot equals pre-test snapshot for all five tables.
+PASS: repeat Schema refused safely (psql exit 3).
+ERROR:  relation "customer" already exists
+PASS: repeat SeedData refused safely (psql exit 3).
+ERROR:  Seed refused: all five portfolio tables must be empty
+CONTEXT:  PL/pgSQL function inline_code_block line 5 at RAISE
+PASS: both repeat-run failures left every seeded row unchanged.
+PASS: verification did not modify the primary portfolio data.
+Removed only the verification database created by this run; primary database retained.

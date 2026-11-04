@@ -1,0 +1,82 @@
+Pager usage is off.
+SET
+     database      |          executed_at          |                                            version                                             
+-------------------+-------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_portfolio | 2026-11-04 17:45:18.835049+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+BEGIN
+LOCK TABLE
+DO
+INSERT 0 6
+INSERT 0 8
+INSERT 0 8
+INSERT 0 13
+INSERT 0 4
+DO
+NOTICE:  PASS: 39 fixture rows; all orders have lines; payments reconcile; stock snapshot reconciles.
+COMMIT
+Fictional customers; example.com addresses are not real customer records.
+ customer_code |  full_name   |          email           
+---------------+--------------+--------------------------
+ C001          | Ada Ojo      | ada.ojo@example.com
+ C002          | Ben Eze      | ben.eze@example.com
+ C003          | Chika Nwosu  | chika.nwosu@example.com
+ C004          | Dami Bello   | dami.bello@example.com
+ C005          | Efe Okoro    | efe.okoro@example.com
+ C006          | Fola Adeyemi | fola.adeyemi@example.com
+(6 rows)
+
+Catalogue and available stock snapshot.
+  sku  | product_name  | unit_price | stock_quantity | is_active 
+-------+---------------+------------+----------------+-----------
+ CAL01 | Calculator    |    8000.00 |              3 | f
+ ENV01 | Envelope pack |    1200.00 |              0 | t
+ FLD01 | Folder        |     500.00 |             30 | t
+ MRK01 | Marker        |    1800.00 |              1 | t
+ NTB01 | Notebook      |    1500.00 |             12 | t
+ PAP01 | Paper ream    |    2500.00 |             10 | t
+ PEN01 | Pen pack      |    1000.00 |             20 | t
+ STP01 | Stapler       |    3500.00 |              5 | t
+(8 rows)
+
+Historical order lines, resolved through business identifiers.
+ order_number |  sku  | quantity | unit_price_at_order | line_total 
+--------------+-------+----------+---------------------+------------
+ O1001        | PAP01 |        1 |             2500.00 |    2500.00
+ O1001        | PEN01 |        2 |              900.00 |    1800.00
+ O1002        | PEN01 |        1 |             1000.00 |    1000.00
+ O1003        | NTB01 |        3 |             1500.00 |    4500.00
+ O1003        | STP01 |        1 |             3500.00 |    3500.00
+ O1004        | PAP01 |        2 |             2500.00 |    5000.00
+ O1005        | ENV01 |        2 |             1200.00 |    2400.00
+ O1005        | MRK01 |        1 |             1800.00 |    1800.00
+ O1006        | CAL01 |        1 |             8000.00 |    8000.00
+ O1007        | NTB01 |        2 |             1500.00 |    3000.00
+ O1007        | PAP01 |        1 |             2500.00 |    2500.00
+ O1008        | PEN01 |        1 |             1000.00 |    1000.00
+ O1008        | STP01 |        1 |             3500.00 |    3500.00
+(13 rows)
+
+Order and payment reconciliation; totals are derived, not stored on the header.
+ order_number | customer_code |       ordered_at       | order_status |      cancelled_at      | order_total | payment_reference |        paid_at         | payment_amount 
+--------------+---------------+------------------------+--------------+------------------------+-------------+-------------------+------------------------+----------------
+ O1001        | C001          | 2026-11-01 08:00:00+00 | placed       |                        |     4300.00 | PAY5001           | 2026-11-01 08:10:00+00 |        4300.00
+ O1002        | C002          | 2026-11-02 09:00:00+00 | placed       |                        |     1000.00 |                   |                        |               
+ O1003        | C003          | 2026-11-02 10:00:00+00 | placed       |                        |     8000.00 | PAY5003           | 2026-11-02 10:05:00+00 |        8000.00
+ O1004        | C001          | 2026-11-02 11:00:00+00 | cancelled    | 2026-11-03 08:00:00+00 |     5000.00 |                   |                        |               
+ O1005        | C004          | 2026-11-03 09:00:00+00 | placed       |                        |     4200.00 | PAY5005           | 2026-11-03 09:05:00+00 |        4200.00
+ O1006        | C005          | 2026-11-03 10:00:00+00 | placed       |                        |     8000.00 | PAY5006           | 2026-11-03 10:05:00+00 |        8000.00
+ O1007        | C002          | 2026-11-04 08:00:00+00 | placed       |                        |     5500.00 |                   |                        |               
+ O1008        | C003          | 2026-11-04 09:00:00+00 | cancelled    | 2026-11-04 10:00:00+00 |     4500.00 |                   |                        |               
+(8 rows)
+
+ table_name  | rows 
+-------------+------
+ customer    |    6
+ order_item  |   13
+ payment     |    4
+ product     |    8
+ sales_order |    8
+(5 rows)
+

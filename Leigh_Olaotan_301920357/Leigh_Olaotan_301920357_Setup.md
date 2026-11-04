@@ -10,7 +10,7 @@ Verified on 4 November 2026 on macOS 26.3.1, Apple Silicon. The [captured checks
 | PostgreSQL container | `mit8103-postgres`, running and healthy |
 | PostgreSQL host address | `127.0.0.1:55432`; container port `5432` |
 | PostgreSQL database/user | `mit8103_portfolio` / `mit8103_admin` |
-| PostgreSQL application tables | Zero tables in the public schema at this checkpoint |
+| PostgreSQL application tables | Zero at the original environment checkpoint; now five with 39 fictional rows. See [P1 evidence](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md). |
 | Docker client/server | 29.8.2 / 29.8.2 |
 | MongoDB | Existing Community server 7.0.43 on `127.0.0.1:27017` |
 | MongoDB shell | Existing mongosh 2.12.0 |

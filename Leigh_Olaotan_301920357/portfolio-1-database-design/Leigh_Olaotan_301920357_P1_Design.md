@@ -1,6 +1,6 @@
 # Harbour Office Supplies: relational design
 
-Status: the five tables and row/key constraints are implemented in PostgreSQL 17.11. Workflow transactions are deferred to Portfolio 3; seed and rejection tests follow in step 6.
+Status: the five tables and row/key constraints are implemented in PostgreSQL 17.11. The fictional seed and row/key tests are verified; workflow transactions remain deferred to Portfolio 3.
 
 This design implements the rules in [the case study](Leigh_Olaotan_301920357_P1_CaseStudy.md). The five relations are `customer`, `product`, `sales_order`, `order_item` and `payment`. Separating order headers from lines supports several products per order; separating payment allows an unpaid order without an empty payment row.
 

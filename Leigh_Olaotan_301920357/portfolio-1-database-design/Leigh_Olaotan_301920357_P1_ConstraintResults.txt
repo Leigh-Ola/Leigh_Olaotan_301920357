@@ -1,0 +1,215 @@
+Pager usage is off.
+SET
+     database      |         executed_at          |                                            version                                             
+-------------------+------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_portfolio | 2026-11-04 17:45:21.98799+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+BEGIN
+LOCK TABLE
+CREATE TABLE
+CREATE FUNCTION
+SELECT 1
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+DO
+DO
+DO
+Observed results: SQLSTATE and exact table/constraint/column verified for each rejection.
+ test_no |     category      |                     test_name                     |    outcome    | sqlstate | table_name  |         constraint_name         |     column_name     
+---------+-------------------+---------------------------------------------------+---------------+----------+-------------+---------------------------------+---------------------
+       1 | REJECTION         | Required customer.customer_id                     | PASS          | 23502    | customer    |                                 | customer_id
+       2 | REJECTION         | Required customer.customer_code                   | PASS          | 23502    | customer    |                                 | customer_code
+       3 | REJECTION         | Required customer.full_name                       | PASS          | 23502    | customer    |                                 | full_name
+       4 | REJECTION         | Required customer.email                           | PASS          | 23502    | customer    |                                 | email
+       5 | REJECTION         | Required order_item.order_id                      | PASS          | 23502    | order_item  |                                 | order_id
+       6 | REJECTION         | Required order_item.product_id                    | PASS          | 23502    | order_item  |                                 | product_id
+       7 | REJECTION         | Required order_item.quantity                      | PASS          | 23502    | order_item  |                                 | quantity
+       8 | REJECTION         | Required order_item.unit_price_at_order           | PASS          | 23502    | order_item  |                                 | unit_price_at_order
+       9 | REJECTION         | Required payment.payment_id                       | PASS          | 23502    | payment     |                                 | payment_id
+      10 | REJECTION         | Required payment.order_id                         | PASS          | 23502    | payment     |                                 | order_id
+      11 | REJECTION         | Required payment.payment_reference                | PASS          | 23502    | payment     |                                 | payment_reference
+      12 | REJECTION         | Required payment.paid_at                          | PASS          | 23502    | payment     |                                 | paid_at
+      13 | REJECTION         | Required payment.amount                           | PASS          | 23502    | payment     |                                 | amount
+      14 | REJECTION         | Required product.product_id                       | PASS          | 23502    | product     |                                 | product_id
+      15 | REJECTION         | Required product.sku                              | PASS          | 23502    | product     |                                 | sku
+      16 | REJECTION         | Required product.product_name                     | PASS          | 23502    | product     |                                 | product_name
+      17 | REJECTION         | Required product.unit_price                       | PASS          | 23502    | product     |                                 | unit_price
+      18 | REJECTION         | Required product.stock_quantity                   | PASS          | 23502    | product     |                                 | stock_quantity
+      19 | REJECTION         | Required product.is_active                        | PASS          | 23502    | product     |                                 | is_active
+      20 | REJECTION         | Required sales_order.order_id                     | PASS          | 23502    | sales_order |                                 | order_id
+      21 | REJECTION         | Required sales_order.order_number                 | PASS          | 23502    | sales_order |                                 | order_number
+      22 | REJECTION         | Required sales_order.customer_id                  | PASS          | 23502    | sales_order |                                 | customer_id
+      23 | REJECTION         | Required sales_order.ordered_at                   | PASS          | 23502    | sales_order |                                 | ordered_at
+      24 | REJECTION         | Required sales_order.order_status                 | PASS          | 23502    | sales_order |                                 | order_status
+      25 | REJECTION         | Duplicate customer primary key                    | PASS          | 23505    | customer    | pk_customer                     | 
+      26 | REJECTION         | Duplicate product primary key                     | PASS          | 23505    | product     | pk_product                      | 
+      27 | REJECTION         | Duplicate order primary key                       | PASS          | 23505    | sales_order | pk_sales_order                  | 
+      28 | REJECTION         | Duplicate composite order line                    | PASS          | 23505    | order_item  | pk_order_item                   | 
+      29 | REJECTION         | Duplicate payment primary key                     | PASS          | 23505    | payment     | pk_payment                      | 
+      30 | REJECTION         | Duplicate customer code                           | PASS          | 23505    | customer    | uq_customer_code                | 
+      31 | REJECTION         | Duplicate customer email                          | PASS          | 23505    | customer    | uq_customer_email               | 
+      32 | REJECTION         | Duplicate product SKU                             | PASS          | 23505    | product     | uq_product_sku                  | 
+      33 | REJECTION         | Duplicate order number                            | PASS          | 23505    | sales_order | uq_sales_order_number           | 
+      34 | REJECTION         | Second payment for one order                      | PASS          | 23505    | payment     | uq_payment_order                | 
+      35 | REJECTION         | Duplicate payment reference                       | PASS          | 23505    | payment     | uq_payment_reference            | 
+      36 | REJECTION         | Missing parent sales_order.customer_id            | PASS          | 23503    | sales_order | fk_sales_order_customer         | 
+      37 | REJECTION         | Missing parent order_item.order_id                | PASS          | 23503    | order_item  | fk_order_item_order             | 
+      38 | REJECTION         | Missing parent order_item.product_id              | PASS          | 23503    | order_item  | fk_order_item_product           | 
+      39 | REJECTION         | Missing parent payment.order_id                   | PASS          | 23503    | payment     | fk_payment_order                | 
+      40 | REJECTION         | Restrict deletion of referenced customer          | PASS          | 23503    | sales_order | fk_sales_order_customer         | 
+      41 | REJECTION         | Restrict deletion of referenced product           | PASS          | 23503    | order_item  | fk_order_item_product           | 
+      42 | REJECTION         | Restrict deletion of referenced sales_order       | PASS          | 23503    | order_item  | fk_order_item_order             | 
+      43 | REJECTION         | Restrict deletion of paid order                   | PASS          | 23503    | payment     | fk_payment_order                | 
+      44 | REJECTION         | Restrict key update of referenced customer        | PASS          | 23503    | sales_order | fk_sales_order_customer         | 
+      45 | REJECTION         | Restrict key update of referenced product         | PASS          | 23503    | order_item  | fk_order_item_product           | 
+      46 | REJECTION         | Restrict key update of referenced sales_order     | PASS          | 23503    | order_item  | fk_order_item_order             | 
+      47 | REJECTION         | Restrict key update of paid order                 | PASS          | 23503    | payment     | fk_payment_order                | 
+      48 | REJECTION         | Whitespace-only customer.customer_code            | PASS          | 23514    | customer    | ck_customer_code_nonblank       | 
+      49 | REJECTION         | Whitespace-only customer.full_name                | PASS          | 23514    | customer    | ck_customer_name_nonblank       | 
+      50 | REJECTION         | Whitespace-only customer.email                    | PASS          | 23514    | customer    | ck_customer_email_normalised    | 
+      51 | REJECTION         | Whitespace-only product.sku                       | PASS          | 23514    | product     | ck_product_sku_nonblank         | 
+      52 | REJECTION         | Whitespace-only product.product_name              | PASS          | 23514    | product     | ck_product_name_nonblank        | 
+      53 | REJECTION         | Whitespace-only sales_order.order_number          | PASS          | 23514    | sales_order | ck_sales_order_number_nonblank  | 
+      54 | REJECTION         | Whitespace-only payment.payment_reference         | PASS          | 23514    | payment     | ck_payment_reference_nonblank   | 
+      55 | REJECTION         | Uppercase email                                   | PASS          | 23514    | customer    | ck_customer_email_normalised    | 
+      56 | REJECTION         | Padded email                                      | PASS          | 23514    | customer    | ck_customer_email_normalised    | 
+      57 | REJECTION         | Internal whitespace email                         | PASS          | 23514    | customer    | ck_customer_email_normalised    | 
+      58 | REJECTION         | Zero product.unit_price                           | PASS          | 23514    | product     | ck_product_price_positive       | 
+      59 | REJECTION         | Negative product.unit_price                       | PASS          | 23514    | product     | ck_product_price_positive       | 
+      60 | REJECTION         | NaN product.unit_price                            | PASS          | 23514    | product     | ck_product_price_positive       | 
+      61 | REJECTION         | Zero order_item.unit_price_at_order               | PASS          | 23514    | order_item  | ck_order_item_price_positive    | 
+      62 | REJECTION         | Negative order_item.unit_price_at_order           | PASS          | 23514    | order_item  | ck_order_item_price_positive    | 
+      63 | REJECTION         | NaN order_item.unit_price_at_order                | PASS          | 23514    | order_item  | ck_order_item_price_positive    | 
+      64 | REJECTION         | Zero payment.amount                               | PASS          | 23514    | payment     | ck_payment_amount_positive      | 
+      65 | REJECTION         | Negative payment.amount                           | PASS          | 23514    | payment     | ck_payment_amount_positive      | 
+      66 | REJECTION         | NaN payment.amount                                | PASS          | 23514    | payment     | ck_payment_amount_positive      | 
+      67 | REJECTION         | Line quantity 0                                   | PASS          | 23514    | order_item  | ck_order_item_quantity_positive | 
+      68 | REJECTION         | Line quantity -1                                  | PASS          | 23514    | order_item  | ck_order_item_quantity_positive | 
+      69 | REJECTION         | Negative available stock                          | PASS          | 23514    | product     | ck_product_stock_nonnegative    | 
+      70 | REJECTION         | Unrecognised order status                         | PASS          | 23514    | sales_order | ck_sales_order_status           | 
+      71 | REJECTION         | Placed order with cancellation time               | PASS          | 23514    | sales_order | ck_sales_order_cancellation     | 
+      72 | REJECTION         | Cancelled order without time                      | PASS          | 23514    | sales_order | ck_sales_order_cancellation     | 
+      73 | REJECTION         | Cancellation before placement                     | PASS          | 23514    | sales_order | ck_sales_order_cancellation     | 
+      74 | REJECTION         | Infinite cancellation time                        | PASS          | 23514    | sales_order | ck_sales_order_cancellation     | 
+      75 | REJECTION         | Order time infinity                               | PASS          | 23514    | sales_order | ck_sales_order_time_finite      | 
+      76 | REJECTION         | Payment time infinity                             | PASS          | 23514    | payment     | ck_payment_time_finite          | 
+      77 | REJECTION         | Order time -infinity                              | PASS          | 23514    | sales_order | ck_sales_order_time_finite      | 
+      78 | REJECTION         | Payment time -infinity                            | PASS          | 23514    | payment     | ck_payment_time_finite          | 
+      79 | VALID_BOUNDARY    | Customer identity generated                       | PASS          |          |             |                                 | 
+      80 | VALID_BOUNDARY    | Product defaults: zero stock and active           | PASS          |          |             |                                 | 
+      81 | VALID_BOUNDARY    | Order identity and default timestamp/status       | PASS          |          |             |                                 | 
+      82 | VALID_BOUNDARY    | Duplicate personal names allowed                  | PASS          |          |             |                                 | 
+      83 | VALID_BOUNDARY    | Duplicate product names allowed                   | PASS          |          |             |                                 | 
+      84 | VALID_BOUNDARY    | One line unit and smallest positive stored price  | PASS          |          |             |                                 | 
+      85 | VALID_BOUNDARY    | Cancellation exactly at placement time            | PASS          |          |             |                                 | 
+      86 | VALID_BOUNDARY    | Generated payment identity for full unpaid order  | PASS          |          |             |                                 | 
+      87 | WORKFLOW_BOUNDARY | Order header can exist without lines              | GAP CONFIRMED |          |             |                                 | 
+      88 | WORKFLOW_BOUNDARY | Placed historical line price can be edited        | GAP CONFIRMED |          |             |                                 | 
+      89 | WORKFLOW_BOUNDARY | Payment can differ from order total               | GAP CONFIRMED |          |             |                                 | 
+      90 | WORKFLOW_BOUNDARY | Payment can precede placement                     | GAP CONFIRMED |          |             |                                 | 
+      91 | WORKFLOW_BOUNDARY | Cancelled order can receive payment               | GAP CONFIRMED |          |             |                                 | 
+      92 | WORKFLOW_BOUNDARY | Inactive product can be inserted as an order line | GAP CONFIRMED |          |             |                                 | 
+      93 | STATE_CHECK       | All 39 rows equal the pre-test snapshot           | PASS          |          |             |                                 | 
+(93 rows)
+
+Diagnostic messages returned by PostgreSQL (not fabricated expected output).
+ test_no |                                                        detail                                                         
+---------+-----------------------------------------------------------------------------------------------------------------------
+       1 | null value in column "customer_id" of relation "customer" violates not-null constraint
+       2 | null value in column "customer_code" of relation "customer" violates not-null constraint
+       3 | null value in column "full_name" of relation "customer" violates not-null constraint
+       4 | null value in column "email" of relation "customer" violates not-null constraint
+       5 | null value in column "order_id" of relation "order_item" violates not-null constraint
+       6 | null value in column "product_id" of relation "order_item" violates not-null constraint
+       7 | null value in column "quantity" of relation "order_item" violates not-null constraint
+       8 | null value in column "unit_price_at_order" of relation "order_item" violates not-null constraint
+       9 | null value in column "payment_id" of relation "payment" violates not-null constraint
+      10 | null value in column "order_id" of relation "payment" violates not-null constraint
+      11 | null value in column "payment_reference" of relation "payment" violates not-null constraint
+      12 | null value in column "paid_at" of relation "payment" violates not-null constraint
+      13 | null value in column "amount" of relation "payment" violates not-null constraint
+      14 | null value in column "product_id" of relation "product" violates not-null constraint
+      15 | null value in column "sku" of relation "product" violates not-null constraint
+      16 | null value in column "product_name" of relation "product" violates not-null constraint
+      17 | null value in column "unit_price" of relation "product" violates not-null constraint
+      18 | null value in column "stock_quantity" of relation "product" violates not-null constraint
+      19 | null value in column "is_active" of relation "product" violates not-null constraint
+      20 | null value in column "order_id" of relation "sales_order" violates not-null constraint
+      21 | null value in column "order_number" of relation "sales_order" violates not-null constraint
+      22 | null value in column "customer_id" of relation "sales_order" violates not-null constraint
+      23 | null value in column "ordered_at" of relation "sales_order" violates not-null constraint
+      24 | null value in column "order_status" of relation "sales_order" violates not-null constraint
+      25 | duplicate key value violates unique constraint "pk_customer"
+      26 | duplicate key value violates unique constraint "pk_product"
+      27 | duplicate key value violates unique constraint "pk_sales_order"
+      28 | duplicate key value violates unique constraint "pk_order_item"
+      29 | duplicate key value violates unique constraint "pk_payment"
+      30 | duplicate key value violates unique constraint "uq_customer_code"
+      31 | duplicate key value violates unique constraint "uq_customer_email"
+      32 | duplicate key value violates unique constraint "uq_product_sku"
+      33 | duplicate key value violates unique constraint "uq_sales_order_number"
+      34 | duplicate key value violates unique constraint "uq_payment_order"
+      35 | duplicate key value violates unique constraint "uq_payment_reference"
+      36 | insert or update on table "sales_order" violates foreign key constraint "fk_sales_order_customer"
+      37 | insert or update on table "order_item" violates foreign key constraint "fk_order_item_order"
+      38 | insert or update on table "order_item" violates foreign key constraint "fk_order_item_product"
+      39 | insert or update on table "payment" violates foreign key constraint "fk_payment_order"
+      40 | update or delete on table "customer" violates foreign key constraint "fk_sales_order_customer" on table "sales_order"
+      41 | update or delete on table "product" violates foreign key constraint "fk_order_item_product" on table "order_item"
+      42 | update or delete on table "sales_order" violates foreign key constraint "fk_order_item_order" on table "order_item"
+      43 | update or delete on table "sales_order" violates foreign key constraint "fk_payment_order" on table "payment"
+      44 | update or delete on table "customer" violates foreign key constraint "fk_sales_order_customer" on table "sales_order"
+      45 | update or delete on table "product" violates foreign key constraint "fk_order_item_product" on table "order_item"
+      46 | update or delete on table "sales_order" violates foreign key constraint "fk_order_item_order" on table "order_item"
+      47 | update or delete on table "sales_order" violates foreign key constraint "fk_payment_order" on table "payment"
+      48 | new row for relation "customer" violates check constraint "ck_customer_code_nonblank"
+      49 | new row for relation "customer" violates check constraint "ck_customer_name_nonblank"
+      50 | new row for relation "customer" violates check constraint "ck_customer_email_normalised"
+      51 | new row for relation "product" violates check constraint "ck_product_sku_nonblank"
+      52 | new row for relation "product" violates check constraint "ck_product_name_nonblank"
+      53 | new row for relation "sales_order" violates check constraint "ck_sales_order_number_nonblank"
+      54 | new row for relation "payment" violates check constraint "ck_payment_reference_nonblank"
+      55 | new row for relation "customer" violates check constraint "ck_customer_email_normalised"
+      56 | new row for relation "customer" violates check constraint "ck_customer_email_normalised"
+      57 | new row for relation "customer" violates check constraint "ck_customer_email_normalised"
+      58 | new row for relation "product" violates check constraint "ck_product_price_positive"
+      59 | new row for relation "product" violates check constraint "ck_product_price_positive"
+      60 | new row for relation "product" violates check constraint "ck_product_price_positive"
+      61 | new row for relation "order_item" violates check constraint "ck_order_item_price_positive"
+      62 | new row for relation "order_item" violates check constraint "ck_order_item_price_positive"
+      63 | new row for relation "order_item" violates check constraint "ck_order_item_price_positive"
+      64 | new row for relation "payment" violates check constraint "ck_payment_amount_positive"
+      65 | new row for relation "payment" violates check constraint "ck_payment_amount_positive"
+      66 | new row for relation "payment" violates check constraint "ck_payment_amount_positive"
+      67 | new row for relation "order_item" violates check constraint "ck_order_item_quantity_positive"
+      68 | new row for relation "order_item" violates check constraint "ck_order_item_quantity_positive"
+      69 | new row for relation "product" violates check constraint "ck_product_stock_nonnegative"
+      70 | new row for relation "sales_order" violates check constraint "ck_sales_order_status"
+      71 | new row for relation "sales_order" violates check constraint "ck_sales_order_cancellation"
+      72 | new row for relation "sales_order" violates check constraint "ck_sales_order_cancellation"
+      73 | new row for relation "sales_order" violates check constraint "ck_sales_order_cancellation"
+      74 | new row for relation "sales_order" violates check constraint "ck_sales_order_cancellation"
+      75 | new row for relation "sales_order" violates check constraint "ck_sales_order_time_finite"
+      76 | new row for relation "payment" violates check constraint "ck_payment_time_finite"
+      77 | new row for relation "sales_order" violates check constraint "ck_sales_order_time_finite"
+      78 | new row for relation "payment" violates check constraint "ck_payment_time_finite"
+(78 rows)
+
+Coverage and outcomes. Workflow gaps are explicitly separate from successful integrity checks.
+     category      |    outcome    | tests 
+-------------------+---------------+-------
+ REJECTION         | PASS          |    78
+ STATE_CHECK       | PASS          |     1
+ VALID_BOUNDARY    | PASS          |     8
+ WORKFLOW_BOUNDARY | GAP CONFIRMED |     6
+(4 rows)
+
+ named_constraints_tested | required_columns_tested 
+--------------------------+-------------------------
+                       31 |                      24
+(1 row)
+
+ROLLBACK
+Test transaction rolled back. Seed rows retained; sequence gaps are normal and are not reset.
