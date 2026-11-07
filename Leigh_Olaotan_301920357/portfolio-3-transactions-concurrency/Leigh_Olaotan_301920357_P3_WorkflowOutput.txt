@@ -1,0 +1,32 @@
+Pager usage is off.
+BEGIN
+DO
+CREATE SCHEMA
+REVOKE
+GRANT
+GRANT
+GRANT
+REVOKE
+GRANT
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+ALTER FUNCTION
+ALTER FUNCTION
+REVOKE
+GRANT
+COMMIT
+ nspname  |    proname     |      owner       | security_definer |              proconfig              
+----------+----------------+------------------+------------------+-------------------------------------
+ shop_api | cancel_order   | mit8103_p3_owner | t                | {"search_path=pg_catalog, pg_temp"}
+ shop_api | place_order    | mit8103_p3_owner | t                | {"search_path=pg_catalog, pg_temp"}
+ shop_api | record_payment | mit8103_p3_owner | t                | {"search_path=pg_catalog, pg_temp"}
+(3 rows)
+
+ app_can_edit_lines | app_can_edit_stock | app_can_place_order 
+--------------------+--------------------+---------------------
+ f                  | f                  | t
+(1 row)
+

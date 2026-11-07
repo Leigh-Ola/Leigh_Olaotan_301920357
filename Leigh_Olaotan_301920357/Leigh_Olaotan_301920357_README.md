@@ -17,8 +17,8 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 | Component | Documentation | Current evidence |
 | --- | --- | --- |
 | P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Design, executed schema, 39 fictional records, integrity tests and independent replay |
-| P2 | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Six business queries with verified results; benchmark pending |
-| P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Introductory documentation |
+| P2 | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Six verified business queries, measured baseline/index comparison and analysis |
+| P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Controlled shop operations, committed/rolled-back transactions and 25 rejection checks; concurrency next |
 | P4 | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Introductory documentation |
 | P5 | [Distributed and Cloud Database Exercise](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Introductory documentation |
 
@@ -28,7 +28,7 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 
 ## Current checkpoint
 
-Steps 1-6 are implemented: repository structure, shared case, checked database services, relational design, executed schema, fictional records and verified row/key integrity tests. Step 7 is also complete: six business queries and their verified, explained results. Steps 8-9 are next. Query-performance work, transaction workflows/concurrency, MongoDB and the distributed discussion remain pending. The final summary and submission review will use their verified results.
+Steps 1-10 are implemented, including verified business queries, the separate benchmark/index comparison and controlled transaction operations. Step 11 is next: independent-session isolation and concurrency evidence. MongoDB, the distributed discussion and final documentation/review remain pending.
 
 ## Evidence and access
 

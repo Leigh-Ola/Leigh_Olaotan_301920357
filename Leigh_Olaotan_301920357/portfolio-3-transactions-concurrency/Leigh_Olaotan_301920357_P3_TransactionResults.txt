@@ -1,0 +1,185 @@
+Pager usage is off.
+SET
+   current_database   |       current_timestamp       |                                            version                                             
+----------------------+-------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_transactions | 2026-11-07 08:02:48.118759+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+DO
+CREATE FUNCTION
+Starting available stock
+  sku  | stock_quantity 
+-------+----------------
+ NTB01 |             12
+ PAP01 |             10
+ PEN01 |             20
+(3 rows)
+
+1. COMMIT: two-line order and both stock deductions persist together.
+BEGIN
+SET
+ operation_role 
+----------------
+ mit8103_p3_app
+(1 row)
+
+ place_order 
+-------------
+           9
+(1 row)
+
+COMMIT
+DO
+ order_number | lines |  total  
+--------------+-------+---------
+ TX-COMMIT    |     2 | 4500.00
+(1 row)
+
+SELECT 1
+2. ROLLBACK: an earlier successful order plus part of a second order must both disappear.
+BEGIN
+SET
+ place_order 
+-------------
+          10
+(1 row)
+
+ERROR:  Product inactive or insufficient stock: ENV01
+CONTEXT:  PL/pgSQL function shop_api.place_order(text,text,text[],integer[],timestamp with time zone) line 25 at RAISE
+ROLLBACK
+PASS: observed expected insufficient-stock SQLSTATE P3002
+DO
+ failed_transaction_orders 
+---------------------------
+                         0
+(1 row)
+
+  sku  | stock_quantity 
+-------+----------------
+ ENV01 |              0
+ PAP01 |              9
+ PEN01 |             18
+(3 rows)
+
+3. COMMIT a full payment for the successful order.
+BEGIN
+SET
+ record_payment 
+----------------
+              5
+(1 row)
+
+COMMIT
+ order_number | payment_reference | amount  
+--------------+-------------------+---------
+ TX-COMMIT    | TX-PAY            | 4500.00
+(1 row)
+
+4. Cancel an unpaid order and restore its two notebook units exactly once.
+BEGIN
+SET
+ place_order 
+-------------
+          12
+(1 row)
+
+COMMIT
+  sku  | stock_quantity 
+-------+----------------
+ NTB01 |             10
+(1 row)
+
+BEGIN
+SET
+COMMIT
+BEGIN
+SET
+COMMIT
+ first_cancellation | repeated_cancellation 
+--------------------+-----------------------
+ t                  | f
+(1 row)
+
+DO
+  sku  | stock_quantity 
+-------+----------------
+ NTB01 |             12
+(1 row)
+
+5. A catalogue price change does not reprice existing lines (probe rolled back).
+BEGIN
+UPDATE 1
+ order_number | unit_price_at_order 
+--------------+---------------------
+ O1001        |              900.00
+ TX-COMMIT    |             1000.00
+(2 rows)
+
+DO
+ROLLBACK
+6. Workflow/permission rejections under the restricted practice role.
+BEGIN
+LOCK TABLE
+UPDATE 1
+CREATE TABLE
+GRANT
+CREATE FUNCTION
+SET
+DO
+RESET
+DO
+          test_name          | sqlstate |   constraint_name    |                                     message                                     
+-----------------------------+----------+----------------------+---------------------------------------------------------------------------------
+ Cancel paid order           | P3005    |                      | Cannot cancel a paid order or cancel before placement
+ Cancelled order payment     | P3004    |                      | Order is not eligible for this payment
+ Delete payment history      | 42501    |                      | permission denied for table payment
+ Direct empty header         | 42501    |                      | permission denied for table sales_order
+ Duplicate payment reference | 23505    | uq_payment_reference | duplicate key value violates unique constraint "uq_payment_reference"
+ Duplicate product           | P3001    |                      | Invalid order input: require nonempty distinct products and positive quantities
+ Early cancellation          | P3005    |                      | Cannot cancel a paid order or cancel before placement
+ Early payment               | P3004    |                      | Order is not eligible for this payment
+ Edit historical line        | 42501    |                      | permission denied for table order_item
+ Edit original customer/time | 42501    |                      | permission denied for table sales_order
+ Edit stock directly         | 42501    |                      | permission denied for table product
+ Empty order                 | P3001    |                      | Invalid order input: require nonempty distinct products and positive quantities
+ Inactive product            | P3002    |                      | Product inactive or insufficient stock: CAL01
+ Infinite payment time       | P3001    |                      | Invalid payment input
+ Insert payment directly     | 42501    |                      | permission denied for table payment
+ Insufficient stock          | P3002    |                      | Product inactive or insufficient stock: ENV01
+ Missing customer            | P3003    |                      | Customer not found
+ Missing order               | P3003    |                      | Order not found
+ Missing product             | P3003    |                      | Product not found
+ NaN payment                 | P3001    |                      | Invalid payment input
+ Null quantity               | P3001    |                      | Invalid order input: require nonempty distinct products and positive quantities
+ Second payment              | P3004    |                      | Order is not eligible for this payment
+ Truncate historical lines   | 42501    |                      | permission denied for table order_item
+ Wrong payment total         | P3004    |                      | Payment must equal the nonempty order total
+ Zero quantity               | P3001    |                      | Invalid order input: require nonempty distinct products and positive quantities
+(25 rows)
+
+ passed_rejections 
+-------------------
+                25
+(1 row)
+
+ROLLBACK
+PASS: all rejection probes left every business row unchanged.
+Final committed exercise state; P1 and benchmark databases are separate and unchanged.
+ order_number | order_status | payment_reference | amount  
+--------------+--------------+-------------------+---------
+ TX-CANCEL    | cancelled    |                   |        
+ TX-COMMIT    | placed       | TX-PAY            | 4500.00
+(2 rows)
+
+  sku  | stock_quantity 
+-------+----------------
+ CAL01 |              3
+ ENV01 |              0
+ FLD01 |             30
+ MRK01 |              1
+ NTB01 |             12
+ PAP01 |              9
+ PEN01 |             18
+ STP01 |              5
+(8 rows)
+
