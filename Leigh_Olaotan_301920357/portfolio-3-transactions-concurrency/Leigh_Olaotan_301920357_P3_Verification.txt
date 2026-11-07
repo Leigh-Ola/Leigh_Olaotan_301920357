@@ -1,0 +1,14 @@
+Independent P3 replay: 2026-11-07T08:08:06.917965+00:00
+Existing primary exercise: mit8103_transactions; fresh replay: mit8103_p3_replay_20261107
+SHA256 Leigh_Olaotan_301920357_P3_Workflows.sql 4bbefde204b2aa90920d3a61b727e98175238b5b53c99343be998aae6ebe3be7
+SHA256 Leigh_Olaotan_301920357_P3_Transactions.sql 9ccc05f1944c9086d519eb4842aef5a61675c786d944b6b14af794789ea3a635
+SHA256 Leigh_Olaotan_301920357_P3_SessionA.sql 52df09f5a4a9763bcc006c8800865c422dbd56f0224b4957b5fea1dcd7091122
+SHA256 Leigh_Olaotan_301920357_P3_SessionB.sql 6632576a26f5582a1d83d91c001144e96d6422c2c5dc3bba026fffa2e696dc87
+SHA256 Leigh_Olaotan_301920357_P3_Concurrency.py 82cee6094ac42e40c5681780d6df24477cbcefe0d93a5400926b8c32166e064e
+PASS: original P1 business data equals freshly loaded seed in every field/relationship despite offset IDs.
+PASS: workflow installation, committed/rolled-back operations and 25 enforcement checks replayed.
+PASS: all four concurrency/isolation scenarios replayed; three actual lock waits observed.
+PASS: every final business field and relationship equals the original P3 run, independent of generated IDs.
+PASS: primary P1 and P3 data unchanged by independent replay.
+PASS: P2 exact ordered results, settings, source hash and dataset counts match before/after; only the candidate index was added.
+Removed only the replay database created by this verification; retained primary exercise databases and NOLOGIN practice roles.

@@ -18,7 +18,7 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 | --- | --- | --- |
 | P1 | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Design, executed schema, 39 fictional records, integrity tests and independent replay |
 | P2 | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Six verified business queries, measured baseline/index comparison and analysis |
-| P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Controlled shop operations, committed/rolled-back transactions and 25 rejection checks; concurrency next |
+| P3 | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Controlled operations, commit/rollback, 25 rejection checks and four verified concurrency/isolation scenarios |
 | P4 | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Introductory documentation |
 | P5 | [Distributed and Cloud Database Exercise](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Introductory documentation |
 
@@ -28,7 +28,7 @@ The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_30192
 
 ## Current checkpoint
 
-Steps 1-10 are implemented, including verified business queries, the separate benchmark/index comparison and controlled transaction operations. Step 11 is next: independent-session isolation and concurrency evidence. MongoDB, the distributed discussion and final documentation/review remain pending.
+Steps 1-11 are implemented, including verified business queries, measured optimisation, controlled transactions and independent-session isolation/concurrency evidence. Step 12 is next: the MongoDB document model. MongoDB implementation, the distributed discussion and final documentation/review remain pending.
 
 ## Evidence and access
 
@@ -38,4 +38,4 @@ Scripts, actual outputs and explanations belong with their component. The reposi
 
 The supplied Miva MIT 8103 assessment defines the requirements. The [external codelab](https://github.com/arizonal2014/MIT8103_Codelab/tree/619af2bb8394ad020fc29223acaedf80f3423a61) is a learning reference. Its code, screenshots and measurements are not represented as this student's execution evidence.
 
-Codex assisted with source review, repository organisation, documentation, schema/data/test implementation and local execution. P1 records the assistance and verification details. No claim is made here that the student has personally run or checked an implementation.
+Codex assisted with source review, repository organisation, documentation, schema/data/test implementation and local execution. The component READMEs record assistance and verification details. No claim is made here that the student has personally run or checked an implementation.

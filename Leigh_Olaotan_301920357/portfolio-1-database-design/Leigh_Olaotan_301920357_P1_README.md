@@ -48,7 +48,7 @@ Use the host, port and authentication instructions in the setup document. For th
   < Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_Schema.sql
 ```
 
-The schema script deliberately fails if these tables already exist; it does not reset a populated database. Create/select a separate empty practice database for a replay. Row constraints cannot guarantee an order contains a line, reserve or restore stock, freeze historical details, or validate a payment against another table. These operations remain for Portfolio 3.
+The schema script deliberately fails if these tables already exist; it does not reset a populated database. Create/select a separate empty practice database for a replay. Row constraints cannot guarantee an order contains a line, reserve or restore stock, freeze historical details, or validate a payment against another table. These operations are covered by the later P3 workflows linked below.
 
 ## Fictional dataset
 
@@ -87,7 +87,7 @@ The temporary test helpers use PL/pgSQL exception subtransactions to undo each p
 
 ### Rules still requiring Portfolio 3
 
-The six probes show that direct SQL can create a header without lines, edit a placed line price, record a wrong payment total, record an early payment, pay a cancelled order, or add an inactive product to a line. Each probe is rolled back. Stock reservation/restoration, paid-order cancellation prevention, immutable history and concurrent placement/payment/cancellation also require the planned transaction controls. Their implementation and concurrency testing are still pending; these P1 results do not claim them complete.
+The six probes show that direct SQL can create a header without lines, edit a placed line price, record a wrong payment total, record an early payment, pay a cancelled order, or add an inactive product to a line. Each probe is rolled back. Stock reservation/restoration, paid-order cancellation prevention, immutable history and concurrent placement/payment/cancellation also require the planned transaction controls. These P1 results cover the base schema; the later P3 section below links the implemented and tested restricted workflows.
 
 ## Reproduction and verification
 
@@ -116,3 +116,7 @@ The schema/seed/result text files are actual local psql output; the verification
 - PostgreSQL 17: [constraints](https://www.postgresql.org/docs/17/ddl-constraints.html), [numeric types](https://www.postgresql.org/docs/17/datatype-numeric.html), [PL/pgSQL error trapping and diagnostics](https://www.postgresql.org/docs/17/plpgsql-control-structures.html#PLPGSQL-ERROR-TRAPPING), and [sequence behaviour](https://www.postgresql.org/docs/17/functions-sequence.html).
 - The student-group [portfolio generator reference at the reviewed revision](https://github.com/arizonal2014/MIT8103_Portfolio_Generator/tree/7b738abea6d261cc787f09a8465dc2db097f1003) informed the use of precise rejection diagnostics and before/after state checks. The shop schema, fixture and tests were authored for this case; the generator was not executed or imported.
 - Codex assisted with implementation, test design, local execution, documentation and verification. These statements describe assistant-performed work. Student review, personal understanding and the final reflection remain to be recorded by the student.
+
+## Later workflow implementation
+
+The P1 outputs and base database above preserve the original row/key checkpoint. The six workflow gaps identified here are now addressed for the restricted practice role in the separate [P3 implementation and evidence](../portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md). P3 includes atomic placement, payment/cancellation coordination and denied direct history edits; administrator bypass limits are explicit. Earlier P1 gap probes are historical evidence, not claims about the later restricted interface.

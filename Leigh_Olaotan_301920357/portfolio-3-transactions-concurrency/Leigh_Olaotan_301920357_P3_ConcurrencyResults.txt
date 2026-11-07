@@ -1,0 +1,303 @@
+2026-11-07T08:06:57.130456+00:00 SOURCE Leigh_Olaotan_301920357_P3_SessionA.sql SHA256 52df09f5a4a9763bcc006c8800865c422dbd56f0224b4957b5fea1dcd7091122
+2026-11-07T08:06:57.130961+00:00 SOURCE Leigh_Olaotan_301920357_P3_SessionB.sql SHA256 6632576a26f5582a1d83d91c001144e96d6422c2c5dc3bba026fffa2e696dc87
+2026-11-07T08:06:57.133570+00:00 [a] SQL:
+SET TIME ZONE 'UTC'; SET statement_timeout='20s'; SET lock_timeout='15s'; SET application_name='mit8103_p3_a';
+2026-11-07T08:06:57.175192+00:00 [a] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.175290+00:00 [a] SQL:
+SELECT pg_backend_pid();
+2026-11-07T08:06:57.177493+00:00 [a] OUTPUT:
+31855
+SQLSTATE=00000
+2026-11-07T08:06:57.177721+00:00 [a] backend_pid=31855
+2026-11-07T08:06:57.179234+00:00 [b] SQL:
+SET TIME ZONE 'UTC'; SET statement_timeout='20s'; SET lock_timeout='15s'; SET application_name='mit8103_p3_b';
+2026-11-07T08:06:57.242169+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.242276+00:00 [b] SQL:
+SELECT pg_backend_pid();
+2026-11-07T08:06:57.242959+00:00 [b] OUTPUT:
+31862
+SQLSTATE=00000
+2026-11-07T08:06:57.243015+00:00 [b] backend_pid=31862
+2026-11-07T08:06:57.244783+00:00 [observer] SQL:
+SET TIME ZONE 'UTC'; SET statement_timeout='20s'; SET lock_timeout='15s'; SET application_name='mit8103_p3_observer';
+2026-11-07T08:06:57.284930+00:00 [observer] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.285013+00:00 [observer] SQL:
+SELECT pg_backend_pid();
+2026-11-07T08:06:57.287182+00:00 [observer] OUTPUT:
+31876
+SQLSTATE=00000
+2026-11-07T08:06:57.287281+00:00 [observer] backend_pid=31876
+2026-11-07T08:06:57.287331+00:00 [observer] SQL:
+SELECT version();
+2026-11-07T08:06:57.288314+00:00 [observer] OUTPUT:
+PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+SQLSTATE=00000
+2026-11-07T08:06:57.288338+00:00 DATABASE mit8103_transactions VERSION PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-11-07T08:06:57.288362+00:00 [observer] SQL:
+SELECT json_build_object('marker',(SELECT stock_quantity FROM public.product WHERE sku='MRK01'),'pen',(SELECT stock_quantity FROM public.product WHERE sku='PEN01'),'folder',(SELECT stock_quantity FROM public.product WHERE sku='FLD01'),'cc_orders',(SELECT count(*) FROM public.sales_order WHERE order_number LIKE 'CC-%'),'tx_orders',(SELECT count(*) FROM public.sales_order WHERE order_number IN ('TX-COMMIT','TX-CANCEL')));
+2026-11-07T08:06:57.300915+00:00 [observer] OUTPUT:
+{"marker" : 1, "pen" : 18, "folder" : 30, "cc_orders" : 0, "tx_orders" : 2}
+SQLSTATE=00000
+2026-11-07T08:06:57.301001+00:00 SCENARIO 1: last available marker
+2026-11-07T08:06:57.301040+00:00 [a] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+SELECT shop_api.place_order('CC-STOCK-A','C001',ARRAY['MRK01'],ARRAY[1],TIMESTAMPTZ '2026-11-07T08:00:00Z');
+
+2026-11-07T08:06:57.315222+00:00 [a] OUTPUT:
+15
+SQLSTATE=00000
+2026-11-07T08:06:57.315299+00:00 [b] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+SELECT json_build_object('isolation',current_setting('transaction_isolation'),
+ 'stock',(SELECT stock_quantity FROM public.product WHERE sku='MRK01'),
+ 'visible_a_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-STOCK-A'));
+
+2026-11-07T08:06:57.325870+00:00 [b] OUTPUT:
+{"isolation" : "read committed", "stock" : 1, "visible_a_orders" : 0}
+SQLSTATE=00000
+2026-11-07T08:06:57.325933+00:00 [b] SQL:
+SELECT shop_api.place_order('CC-STOCK-B','C002',ARRAY['MRK01'],ARRAY[1],TIMESTAMPTZ '2026-11-07T08:00:00Z');
+
+2026-11-07T08:06:57.325959+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.329569+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : null, "wait_event" : null, "blockers" : []}
+SQLSTATE=00000
+2026-11-07T08:06:57.381710+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.383104+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : "Lock", "wait_event" : "transactionid", "blockers" : [31855]}
+SQLSTATE=00000
+2026-11-07T08:06:57.383197+00:00 PASS: observed B waiting on a lock held by A: {"pid": 31862, "application_name": "mit8103_p3_b", "wait_event_type": "Lock", "wait_event": "transactionid", "blockers": [31855]}
+2026-11-07T08:06:57.383229+00:00 [a] SQL:
+COMMIT;
+
+2026-11-07T08:06:57.384085+00:00 [a] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.384840+00:00 [b] OUTPUT:
+ERROR:  P3002: Product inactive or insufficient stock: MRK01
+CONTEXT:  PL/pgSQL function shop_api.place_order(text,text,text[],integer[],timestamp with time zone) line 25 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SQLSTATE=P3002
+2026-11-07T08:06:57.384876+00:00 [b] SQL:
+ROLLBACK;
+
+2026-11-07T08:06:57.385416+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.385446+00:00 [observer] SQL:
+SELECT json_build_object('stock',(SELECT stock_quantity FROM public.product WHERE sku='MRK01'),'a_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-STOCK-A'),'b_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-STOCK-B'),'reserved_units',(SELECT coalesce(sum(i.quantity),0) FROM public.order_item i JOIN public.sales_order o USING(order_id) WHERE o.order_number IN ('CC-STOCK-A','CC-STOCK-B')));
+2026-11-07T08:06:57.388548+00:00 [observer] OUTPUT:
+{"stock" : 0, "a_orders" : 1, "b_orders" : 0, "reserved_units" : 1}
+SQLSTATE=00000
+2026-11-07T08:06:57.388607+00:00 PASS: one last unit reserved by A; B left no header, line or stock deduction.
+2026-11-07T08:06:57.388618+00:00 SCENARIO 2: payment obtains the order lock before cancellation
+2026-11-07T08:06:57.388650+00:00 [a] SQL:
+SET ROLE mit8103_p3_app;
+SELECT shop_api.place_order('CC-PAY-FIRST','C001',ARRAY['FLD01'],ARRAY[1],TIMESTAMPTZ '2026-11-07T08:00:00Z');
+RESET ROLE;
+
+2026-11-07T08:06:57.390591+00:00 [a] OUTPUT:
+17
+SQLSTATE=00000
+2026-11-07T08:06:57.390643+00:00 [a] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+SELECT shop_api.record_payment('CC-PAY-FIRST','CC-PAY-1',500,TIMESTAMPTZ '2026-11-07T08:01:00Z');
+
+2026-11-07T08:06:57.395405+00:00 [a] OUTPUT:
+7
+SQLSTATE=00000
+2026-11-07T08:06:57.395456+00:00 [b] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+
+2026-11-07T08:06:57.395966+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.396019+00:00 [b] SQL:
+SELECT shop_api.cancel_order('CC-PAY-FIRST',TIMESTAMPTZ '2026-11-07T08:02:00Z');
+
+2026-11-07T08:06:57.396044+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.396986+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : null, "wait_event" : null, "blockers" : []}
+SQLSTATE=00000
+2026-11-07T08:06:57.452090+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.453906+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : "Lock", "wait_event" : "transactionid", "blockers" : [31855]}
+SQLSTATE=00000
+2026-11-07T08:06:57.453978+00:00 PASS: observed B waiting on a lock held by A: {"pid": 31862, "application_name": "mit8103_p3_b", "wait_event_type": "Lock", "wait_event": "transactionid", "blockers": [31855]}
+2026-11-07T08:06:57.454014+00:00 [a] SQL:
+COMMIT;
+
+2026-11-07T08:06:57.455420+00:00 [a] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.457312+00:00 [b] OUTPUT:
+ERROR:  P3005: Cannot cancel a paid order or cancel before placement
+CONTEXT:  PL/pgSQL function shop_api.cancel_order(text,timestamp with time zone) line 12 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SQLSTATE=P3005
+2026-11-07T08:06:57.457365+00:00 [b] SQL:
+ROLLBACK;
+
+2026-11-07T08:06:57.458022+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.458114+00:00 [observer] SQL:
+SELECT json_build_object('status',o.order_status,'payments',(SELECT count(*) FROM public.payment p WHERE p.order_id=o.order_id),'folder_stock',(SELECT stock_quantity FROM public.product WHERE sku='FLD01')) FROM public.sales_order o WHERE order_number='CC-PAY-FIRST';
+2026-11-07T08:06:57.459913+00:00 [observer] OUTPUT:
+{"status" : "placed", "payments" : 1, "folder_stock" : 29}
+SQLSTATE=00000
+2026-11-07T08:06:57.459957+00:00 PASS: payment wins; cancellation rejected without restoring reserved stock.
+2026-11-07T08:06:57.459966+00:00 SCENARIO 3: cancellation obtains the same order lock before payment
+2026-11-07T08:06:57.459987+00:00 [a] SQL:
+SET ROLE mit8103_p3_app;
+SELECT shop_api.place_order('CC-CANCEL-FIRST','C001',ARRAY['FLD01'],ARRAY[1],TIMESTAMPTZ '2026-11-07T08:00:00Z');
+RESET ROLE;
+
+2026-11-07T08:06:57.462011+00:00 [a] OUTPUT:
+18
+SQLSTATE=00000
+2026-11-07T08:06:57.462064+00:00 [a] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+SELECT shop_api.cancel_order('CC-CANCEL-FIRST',TIMESTAMPTZ '2026-11-07T08:01:00Z');
+
+2026-11-07T08:06:57.463803+00:00 [a] OUTPUT:
+t
+SQLSTATE=00000
+2026-11-07T08:06:57.463834+00:00 [b] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+
+2026-11-07T08:06:57.464474+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.464513+00:00 [b] SQL:
+SELECT shop_api.record_payment('CC-CANCEL-FIRST','CC-PAY-2',500,TIMESTAMPTZ '2026-11-07T08:02:00Z');
+
+2026-11-07T08:06:57.464537+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.465586+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : null, "wait_event" : null, "blockers" : []}
+SQLSTATE=00000
+2026-11-07T08:06:57.520675+00:00 [observer] SQL:
+SELECT json_build_object('pid',pid,'application_name',application_name,'wait_event_type',wait_event_type,'wait_event',wait_event,'blockers',pg_blocking_pids(pid)) FROM pg_stat_activity WHERE pid=31862;
+2026-11-07T08:06:57.522400+00:00 [observer] OUTPUT:
+{"pid" : 31862, "application_name" : "mit8103_p3_b", "wait_event_type" : "Lock", "wait_event" : "transactionid", "blockers" : [31855]}
+SQLSTATE=00000
+2026-11-07T08:06:57.522471+00:00 PASS: observed B waiting on a lock held by A: {"pid": 31862, "application_name": "mit8103_p3_b", "wait_event_type": "Lock", "wait_event": "transactionid", "blockers": [31855]}
+2026-11-07T08:06:57.522511+00:00 [a] SQL:
+COMMIT;
+
+2026-11-07T08:06:57.524121+00:00 [a] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.524629+00:00 [b] OUTPUT:
+ERROR:  P3004: Order is not eligible for this payment
+CONTEXT:  PL/pgSQL function shop_api.record_payment(text,text,numeric,timestamp with time zone) line 13 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SQLSTATE=P3004
+2026-11-07T08:06:57.524664+00:00 [b] SQL:
+ROLLBACK;
+
+2026-11-07T08:06:57.525261+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.525289+00:00 [observer] SQL:
+SELECT json_build_object('status',o.order_status,'payments',(SELECT count(*) FROM public.payment p WHERE p.order_id=o.order_id),'folder_stock',(SELECT stock_quantity FROM public.product WHERE sku='FLD01')) FROM public.sales_order o WHERE order_number='CC-CANCEL-FIRST';
+2026-11-07T08:06:57.526399+00:00 [observer] OUTPUT:
+{"status" : "cancelled", "payments" : 0, "folder_stock" : 29}
+SQLSTATE=00000
+2026-11-07T08:06:57.526446+00:00 PASS: cancellation wins; payment rejected and stock restored once.
+2026-11-07T08:06:57.526463+00:00 SCENARIO 4: READ COMMITTED hides uncommitted writes but allows a later statement to see a commit
+2026-11-07T08:06:57.526493+00:00 [b] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+
+2026-11-07T08:06:57.527274+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.527342+00:00 [b] SQL:
+SELECT json_build_object('isolation',current_setting('transaction_isolation'),
+ 'transaction_id',txid_current(),
+ 'stock',(SELECT stock_quantity FROM public.product WHERE sku='PEN01'),
+ 'visible_a_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-VISIBILITY'));
+
+2026-11-07T08:06:57.528414+00:00 [b] OUTPUT:
+{"isolation" : "read committed", "transaction_id" : 884, "stock" : 18, "visible_a_orders" : 0}
+SQLSTATE=00000
+2026-11-07T08:06:57.528474+00:00 [a] SQL:
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SET LOCAL ROLE mit8103_p3_app;
+SELECT shop_api.place_order('CC-VISIBILITY','C001',ARRAY['PEN01'],ARRAY[1],TIMESTAMPTZ '2026-11-07T08:00:00Z');
+
+2026-11-07T08:06:57.530306+00:00 [a] OUTPUT:
+19
+SQLSTATE=00000
+2026-11-07T08:06:57.530369+00:00 [b] SQL:
+SELECT json_build_object('isolation',current_setting('transaction_isolation'),
+ 'transaction_id',txid_current(),
+ 'stock',(SELECT stock_quantity FROM public.product WHERE sku='PEN01'),
+ 'visible_a_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-VISIBILITY'));
+
+2026-11-07T08:06:57.531230+00:00 [b] OUTPUT:
+{"isolation" : "read committed", "transaction_id" : 884, "stock" : 18, "visible_a_orders" : 0}
+SQLSTATE=00000
+2026-11-07T08:06:57.531273+00:00 [a] SQL:
+COMMIT;
+
+2026-11-07T08:06:57.532530+00:00 [a] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.532568+00:00 [b] SQL:
+SELECT json_build_object('isolation',current_setting('transaction_isolation'),
+ 'transaction_id',txid_current(),
+ 'stock',(SELECT stock_quantity FROM public.product WHERE sku='PEN01'),
+ 'visible_a_orders',(SELECT count(*) FROM public.sales_order WHERE order_number='CC-VISIBILITY'));
+
+2026-11-07T08:06:57.533345+00:00 [b] OUTPUT:
+{"isolation" : "read committed", "transaction_id" : 884, "stock" : 17, "visible_a_orders" : 1}
+SQLSTATE=00000
+2026-11-07T08:06:57.533398+00:00 [b] SQL:
+COMMIT;
+
+2026-11-07T08:06:57.534079+00:00 [b] OUTPUT:
+
+SQLSTATE=00000
+2026-11-07T08:06:57.534106+00:00 PASS: same B transaction/PID reads 18 before commit and 17 after; no dirty read, nonrepeatable read observed.
+2026-11-07T08:06:57.534139+00:00 [observer] SQL:
+SELECT json_build_object(
+     'orders',(SELECT count(*) FROM public.sales_order),
+     'lines',(SELECT count(*) FROM public.order_item),
+     'payments',(SELECT count(*) FROM public.payment),
+     'invalid_payments',(SELECT count(*) FROM public.payment p JOIN public.sales_order o USING(order_id)
+        WHERE o.order_status<>'placed' OR p.paid_at<o.ordered_at OR p.amount<>(SELECT sum(quantity*unit_price_at_order) FROM public.order_item WHERE order_id=o.order_id)),
+     'empty_orders',(SELECT count(*) FROM public.sales_order o WHERE NOT EXISTS(SELECT 1 FROM public.order_item i WHERE i.order_id=o.order_id)),
+     'stock_mismatches',(SELECT count(*) FROM (VALUES('PEN01',23),('PAP01',12),('NTB01',17),('STP01',6),('ENV01',2),('MRK01',2),('CAL01',4),('FLD01',30)) opening(sku,qty)
+        JOIN public.product p USING(sku) WHERE p.stock_quantity<>opening.qty-coalesce((SELECT sum(i.quantity) FROM public.order_item i JOIN public.sales_order o USING(order_id) WHERE i.product_id=p.product_id AND o.order_status='placed'),0)));
+    
+2026-11-07T08:06:57.537956+00:00 [observer] OUTPUT:
+{"orders" : 14, "lines" : 20, "payments" : 6, "invalid_payments" : 0, "empty_orders" : 0, "stock_mismatches" : 0}
+SQLSTATE=00000
+2026-11-07T08:06:57.538037+00:00 [observer] SQL:
+SELECT json_agg(json_build_object('pid',pid,'state',state,'transaction_open',xact_start IS NOT NULL) ORDER BY pid) FROM pg_stat_activity WHERE pid IN (31855,31862);
+2026-11-07T08:06:57.539630+00:00 [observer] OUTPUT:
+[{"pid" : 31855, "state" : "idle", "transaction_open" : false}, {"pid" : 31862, "state" : "idle", "transaction_open" : false}]
+SQLSTATE=00000
+2026-11-07T08:06:57.539676+00:00 PASS: four scenarios; three observed lock waits; payment, line and stock invariants hold; no worker transaction left open.
+2026-11-07T08:06:57.557513+00:00 [a] client closed
+2026-11-07T08:06:57.565938+00:00 [b] client closed
+2026-11-07T08:06:57.573833+00:00 [observer] client closed

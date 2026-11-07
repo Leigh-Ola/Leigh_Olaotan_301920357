@@ -18,6 +18,14 @@ Verified on 4 November 2026 on macOS 26.3.1, Apple Silicon. The [captured checks
 
 PostgreSQL supports the relational and SQL work. MongoDB supports the document-model component for the same shop. The existing MongoDB installation was left in place; only read-only `ping` and `buildInfo` commands were used. No application records were read or changed.
 
+## Separate exercise databases added in steps 8-11
+
+- `mit8103_portfolio`: original five-table P1 fixture, 39 business rows; preserved for P2 query results.
+- `mit8103_benchmark`: same model with 1,030,100 synthetic rows and the measured customer-history index. See the [benchmark method](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BenchmarkMethod.md).
+- `mit8103_transactions`: same initial model/seed with controlled operations and recorded P3 state changes; final 54 business rows. See [P3 reproduction/state](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md).
+
+Two cluster-wide NOLOGIN practice roles, `mit8103_p3_owner` and `mit8103_p3_app`, support P3's controlled-operation demonstration. They have no login credentials. Independent verification databases were created and removed after their checks. All retained database storage is still in the same ignored runtime directory; deleting it would remove every exercise database.
+
 ## Using the existing PostgreSQL container
 
 Run commands from the Git repository root (the parent of the identity-named submission folder), with Docker Desktop running. On this workstation Docker is available at `/Users/user/.docker/bin/docker` if it is absent from the shell's PATH.

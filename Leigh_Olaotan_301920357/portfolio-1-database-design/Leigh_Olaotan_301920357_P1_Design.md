@@ -1,6 +1,6 @@
 # Harbour Office Supplies: relational design
 
-Status: the five tables and row/key constraints are implemented in PostgreSQL 17.11. The fictional seed and row/key tests are verified; workflow transactions remain deferred to Portfolio 3.
+Status: the five tables and row/key constraints are implemented in PostgreSQL 17.11. The fictional seed and row/key tests are verified; workflow transactions are implemented and tested separately in [Portfolio 3](../portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md). The P1 database preserves its original row/key-only checkpoint.
 
 This design implements the rules in [the case study](Leigh_Olaotan_301920357_P1_CaseStudy.md). The five relations are `customer`, `product`, `sales_order`, `order_item` and `payment`. Separating order headers from lines supports several products per order; separating payment allows an unpaid order without an empty payment row.
 
@@ -96,7 +96,7 @@ The [ER diagram](Leigh_Olaotan_301920357_P1_ERDiagram.md) expresses these busine
 | BR08 | Payment PK; unique order/reference; positive amount; required FK/time. | Lock the same order used by cancellation; verify placed status, amount equals line total and paid_at >= ordered_at before recording payment. |
 | BR09 | Restrict deletion of referenced parents. | Derive payment state; retain history and limit updates/deletes through controlled operations. |
 
-The row/key controls are implemented; the additional operation controls remain a specification. Row checks do not enforce sums across child rows or all state transitions. A direct administrator can bypass a workflow by issuing other legal SQL; the later implementation must demonstrate its intended operations and describe access-control limitations. There is no claim of complete production security.
+The row/key controls are implemented here; the additional operation controls are implemented through the restricted-role workflows in the separate P3 database. Row checks do not enforce sums across child rows or all state transitions. A direct administrator can bypass a workflow by issuing other legal SQL; the later implementation must demonstrate its intended operations and describe access-control limitations. There is no claim of complete production security.
 
 ## Design decisions
 

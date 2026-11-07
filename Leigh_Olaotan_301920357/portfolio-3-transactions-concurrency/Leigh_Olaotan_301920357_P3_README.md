@@ -51,6 +51,57 @@ Use `/Users/user/.docker/bin/docker` if Docker is absent from PATH, or standard 
 
 ## Current checkpoint and sources
 
-Step 10 is complete. Step 11 will record independent-session visibility, blocking and invariant checks; no concurrency outcome is asserted by the single-session results above.
+Steps 10-11 are complete. The single-session results above establish commit/rollback and workflow checks; the independent-session evidence below establishes the stated concurrency and isolation results.
 
 PostgreSQL 17: [transaction isolation](https://www.postgresql.org/docs/17/transaction-iso.html), [explicit locks](https://www.postgresql.org/docs/17/explicit-locking.html), and [safe SECURITY DEFINER functions](https://www.postgresql.org/docs/17/sql-createfunction.html#SQL-CREATEFUNCTION-SECURITY). The [complete library example](https://github.com/arizonal2014/Harrison_Perete_202600001/tree/4d924b3d1b736881dd20b8e8247a1dde890df7e7/portfolio-3-transactions-concurrency) informed labelled commit/rollback and A/B evidence. Its library operations/data/output were not imported. Codex authored, executed and verified this shop implementation; student review and individual reflection remain pending.
+
+## Isolation and concurrency results
+
+Step 11 is complete. [Session A](Leigh_Olaotan_301920357_P3_SessionA.sql), [Session B](Leigh_Olaotan_301920357_P3_SessionB.sql), the [automated runner](Leigh_Olaotan_301920357_P3_Concurrency.py) and [actual transcript](Leigh_Olaotan_301920357_P3_ConcurrencyResults.txt) preserve the exact commands, responses, SQLSTATEs and timing. A and B are persistent independent connections; a third administrative connection observes lock waits and final invariants.
+
+| Scenario | Actual sequence and result |
+| --- | --- |
+| Last unit of MRK01 | A reserves its one available unit but does not commit. B still reads stock=1 and sees no A order, then waits on A's product lock. The observer confirms B is blocked by A's actual backend PID. After A commits, B rechecks stock=0, raises P3002 and rolls back. Exactly one new order/line reserves one unit; B leaves no partial order. |
+| Payment wins | A records the full payment on CC-PAY-FIRST while holding its order lock. B's cancellation waits. After A commits, B sees the payment and rejects with P3005. The order stays placed/paid and its stock remains reserved. |
+| Cancellation wins | A cancels CC-CANCEL-FIRST and restores its unit while holding its order lock. B's payment waits. After A commits, B sees cancelled status and rejects with P3004. No payment exists, and stock was restored once. |
+| READ COMMITTED visibility | B reads PEN01 stock=18. A reserves a pen without committing; B still reads 18 and sees no new order. A commits; B's next statement in the same transaction reads 17 and sees the order. B's transaction ID is unchanged across all three reads. This shows absence of dirty reads and a permitted nonrepeatable read. |
+
+The first capture used A PID 31855 and B PID 31862, with observer PID 31876; replay PIDs will differ. Each of the three waits was observed as `wait_event_type=Lock`, `wait_event=transactionid`, with A in `pg_blocking_pids(B)`. The runner waits for this condition before committing A; it does not infer blocking from a fixed delay. Session timeouts and cleanup bound failures.
+
+READ COMMITTED supplies statement snapshots; the product-row lock and post-lock stock check prevent overselling. The shared order lock coordinates payment/cancellation. Isolation level alone does not enforce these business rules, and the experiment does not claim SERIALIZABLE behaviour or protection for arbitrary administrator SQL.
+
+The final separate transaction database contains 6 customers, 8 products, 14 orders, 20 lines and 6 payments (54 rows). There are no empty orders or invalid payments. All eight available stock balances equal the stated opening quantities minus units on placed orders. MRK01=0, PEN01=17, PAP01=9, NTB01=12 and FLD01=29. Both worker transactions are closed before their clients exit.
+
+## Reproduce step 11
+
+First complete step 10 in a new isolated database. The runner refuses existing CC- exercise records or unexpected starting stock. From repository root:
+
+```sh
+python3 Leigh_Olaotan_301920357/portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_Concurrency.py \
+  --output temp/logs/p3-new-concurrency.txt
+```
+
+Optional flags: `--database NEW_DATABASE`, `--docker /Users/user/.docker/bin/docker`, `--container NAME`, `--user NAME`. It refuses to overwrite the output file. The runner reads the committed A/B blocks directly, ensuring the automation and manual instructions exercise the same SQL. It preserves actual errors and asserts their SQLSTATEs.
+
+For manual execution, open two psql connections and follow this order. Do not execute either complete session file at once.
+
+| Scenario | Interleaving |
+| --- | --- |
+| Stock | A `STOCK_A_BEGIN`; B `STOCK_B_BEGIN`, then `STOCK_B_ATTEMPT`; inspect blocking; A `STOCK_A_COMMIT`; B receives P3002, then `B_ROLLBACK`. |
+| Payment first | A `PAY_PREPARE`, `PAY_A_BEGIN`; B `PAY_B_BEGIN`, `PAY_B_ATTEMPT`; inspect blocking; A `PAY_A_COMMIT`; B receives P3005, then `B_ROLLBACK`. |
+| Cancellation first | A `CANCEL_PREPARE`, `CANCEL_A_BEGIN`; B `CANCEL_B_BEGIN`, `CANCEL_B_ATTEMPT`; inspect blocking; A `CANCEL_A_COMMIT`; B receives P3004, then `B_ROLLBACK`. |
+| Visibility | B `VIS_B_BEGIN`, `VIS_B_READ`; A `VIS_A_BEGIN`; B `VIS_B_READ`; A `VIS_A_COMMIT`; B `VIS_B_READ`, `VIS_B_COMMIT`. |
+
+Use `SELECT pg_backend_pid();` in each worker. In a third administrative connection, inspect the actual B PID before releasing A:
+
+```sql
+SELECT pid, application_name, wait_event_type, wait_event, pg_blocking_pids(pid)
+FROM pg_stat_activity
+WHERE pid = <B_BACKEND_PID>;
+```
+
+Replace the bracketed placeholder with the observed integer; it is explanatory notation, not executable SQL. Expected errors in manual psql must be followed by ROLLBACK. Keep A open until B is observably blocked. Do not reuse a failed/incomplete exercise database as though it had the documented initial state.
+
+## Independent replay
+
+[Verification record](Leigh_Olaotan_301920357_P3_Verification.txt) records a fresh database replay with customer/product/order/payment identities starting at 1001/2001/3001/4001. Workflow installation, all 25 rejection checks and all four concurrency/visibility scenarios passed. Every final business field and relationship matched the first run despite different generated IDs. A freshly loaded P1 seed also matched the untouched original P1 business data. The verification database was removed afterwards; the main P1, benchmark and transaction databases were retained. This is a P2/P3 checkpoint check, not completion of the later whole-portfolio submission review.
