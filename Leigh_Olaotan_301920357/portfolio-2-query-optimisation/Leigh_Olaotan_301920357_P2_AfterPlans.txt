@@ -1,0 +1,26 @@
+selective_history representative text plan (extra diagnostic execution, not a measured sample):
+Limit  (cost=8.72..52.01 rows=10 width=32) (actual time=0.243..0.531 rows=10 loops=1)
+  Buffers: shared read=16
+  InitPlan 1
+    ->  Index Scan using uq_customer_code on customer  (cost=0.29..8.30 rows=1 width=8) (actual time=0.087..0.088 rows=1 loops=1)
+          Index Cond: ((customer_code)::text = 'BC00042'::text)
+          Buffers: shared read=3
+  ->  Index Scan using idx_sales_order_customer_history on sales_order o  (cost=0.42..56.70 rows=13 width=32) (actual time=0.242..0.528 rows=10 loops=1)
+        Index Cond: ((customer_id = (InitPlan 1).col1) AND (ordered_at >= '2024-04-01 00:00:00+00'::timestamp with time zone) AND (ordered_at < '2024-07-01 00:00:00+00'::timestamp with time zone))
+        Buffers: shared read=16
+Planning:
+  Buffers: shared hit=155 read=40
+Planning Time: 2.440 ms
+Execution Time: 0.565 ms
+
+broad_status representative text plan (extra diagnostic execution, not a measured sample):
+Aggregate  (cost=7284.30..7284.31 rows=1 width=8) (actual time=41.956..41.957 rows=1 loops=1)
+  Buffers: shared read=2858
+  ->  Seq Scan on sales_order  (cost=0.00..6608.00 rows=270520 width=0) (actual time=0.047..28.175 rows=270000 loops=1)
+        Filter: ((order_status)::text = 'placed'::text)
+        Rows Removed by Filter: 30000
+        Buffers: shared read=2858
+Planning:
+  Buffers: shared hit=66 read=38
+Planning Time: 3.598 ms
+Execution Time: 41.992 ms

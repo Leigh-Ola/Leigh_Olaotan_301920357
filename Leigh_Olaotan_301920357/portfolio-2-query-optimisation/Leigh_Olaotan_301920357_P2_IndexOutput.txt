@@ -1,0 +1,20 @@
+Pager usage is off.
+ current_database  |      current_timestamp       |                                            version                                             
+-------------------+------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_benchmark | 2026-11-07 07:56:56.40548+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+BEGIN
+DO
+CREATE INDEX
+COMMIT
+            indexname             |                                                           indexdef                                                            
+----------------------------------+-------------------------------------------------------------------------------------------------------------------------------
+ idx_sales_order_customer_history | CREATE INDEX idx_sales_order_customer_history ON public.sales_order USING btree (customer_id, ordered_at DESC, order_id DESC)
+(1 row)
+
+ index_bytes | index_size 
+-------------+------------
+    12189696 | 12 MB
+(1 row)
+

@@ -1,0 +1,160 @@
+{
+  "phase": "after",
+  "executed_at": "2026-11-07T07:56:56.893401+00:00",
+  "database": "mit8103_benchmark",
+  "version": "PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "counts": {
+    "customer": 10000,
+    "product": 100,
+    "sales_order": 300000,
+    "order_item": 600000,
+    "payment": 120000
+  },
+  "query_sha256": "dc1d18149398564ba2815418994af1d759bd0f138c6266fdbd07a0750520e461",
+  "warmups": 1,
+  "measured_runs": 5,
+  "settings": {
+    "block_size": "8192",
+    "effective_cache_size": "524288",
+    "jit": "off",
+    "max_parallel_workers_per_gather": "0",
+    "random_page_cost": "4",
+    "seq_page_cost": "1",
+    "server_version": "17.11",
+    "shared_buffers": "50",
+    "work_mem": "4096"
+  },
+  "indexes": [
+    {
+      "tablename": "customer",
+      "indexname": "pk_customer",
+      "indexdef": "CREATE UNIQUE INDEX pk_customer ON public.customer USING btree (customer_id)"
+    },
+    {
+      "tablename": "customer",
+      "indexname": "uq_customer_code",
+      "indexdef": "CREATE UNIQUE INDEX uq_customer_code ON public.customer USING btree (customer_code)"
+    },
+    {
+      "tablename": "customer",
+      "indexname": "uq_customer_email",
+      "indexdef": "CREATE UNIQUE INDEX uq_customer_email ON public.customer USING btree (email)"
+    },
+    {
+      "tablename": "order_item",
+      "indexname": "pk_order_item",
+      "indexdef": "CREATE UNIQUE INDEX pk_order_item ON public.order_item USING btree (order_id, product_id)"
+    },
+    {
+      "tablename": "payment",
+      "indexname": "pk_payment",
+      "indexdef": "CREATE UNIQUE INDEX pk_payment ON public.payment USING btree (payment_id)"
+    },
+    {
+      "tablename": "payment",
+      "indexname": "uq_payment_order",
+      "indexdef": "CREATE UNIQUE INDEX uq_payment_order ON public.payment USING btree (order_id)"
+    },
+    {
+      "tablename": "payment",
+      "indexname": "uq_payment_reference",
+      "indexdef": "CREATE UNIQUE INDEX uq_payment_reference ON public.payment USING btree (payment_reference)"
+    },
+    {
+      "tablename": "product",
+      "indexname": "pk_product",
+      "indexdef": "CREATE UNIQUE INDEX pk_product ON public.product USING btree (product_id)"
+    },
+    {
+      "tablename": "product",
+      "indexname": "uq_product_sku",
+      "indexdef": "CREATE UNIQUE INDEX uq_product_sku ON public.product USING btree (sku)"
+    },
+    {
+      "tablename": "sales_order",
+      "indexname": "idx_sales_order_customer_history",
+      "indexdef": "CREATE INDEX idx_sales_order_customer_history ON public.sales_order USING btree (customer_id, ordered_at DESC, order_id DESC)"
+    },
+    {
+      "tablename": "sales_order",
+      "indexname": "pk_sales_order",
+      "indexdef": "CREATE UNIQUE INDEX pk_sales_order ON public.sales_order USING btree (order_id)"
+    },
+    {
+      "tablename": "sales_order",
+      "indexname": "uq_sales_order_number",
+      "indexdef": "CREATE UNIQUE INDEX uq_sales_order_number ON public.sales_order USING btree (order_number)"
+    }
+  ],
+  "index_bytes": 12189696,
+  "order_table_bytes": 23412736,
+  "results": {
+    "selective_history": {
+      "rows": [
+        {
+          "order_number": "BO260042",
+          "ordered_at": "2024-06-29T14:01:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO250042",
+          "ordered_at": "2024-06-22T15:21:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO240042",
+          "ordered_at": "2024-06-15T16:41:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO230042",
+          "ordered_at": "2024-06-08T18:01:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO220042",
+          "ordered_at": "2024-06-01T19:21:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO210042",
+          "ordered_at": "2024-05-25T20:41:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO200042",
+          "ordered_at": "2024-05-18T22:01:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO190042",
+          "ordered_at": "2024-05-11T23:21:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO180042",
+          "ordered_at": "2024-05-05T00:41:00+00:00",
+          "order_status": "placed"
+        },
+        {
+          "order_number": "BO170042",
+          "ordered_at": "2024-04-28T02:01:00+00:00",
+          "order_status": "placed"
+        }
+      ],
+      "sha256": "d8aa49b6b5c370229a5e4f13ff5b69696d9c7f6005ba9baa9658c676d357fa6e"
+    },
+    "broad_status": {
+      "rows": [
+        {
+          "placed_orders": 270000
+        }
+      ],
+      "sha256": "0041c8690f29a74d05a9a0226a5c08ec5ec93108ea9345d04a16fc40ff21fe2f"
+    }
+  },
+  "median_ms": {
+    "selective_history": 0.578,
+    "broad_status": 43.769
+  }
+}

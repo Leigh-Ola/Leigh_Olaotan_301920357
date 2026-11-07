@@ -31,8 +31,12 @@ On this workstation Docker is `/Users/user/.docker/bin/docker` if absent from PA
 
 ## Current checkpoint and assistance
 
-Step 7 is complete. Step 8 has also captured the separate benchmark baseline; step 9 will add and measure the index. Codex authored and executed these case-specific queries and verified their results. Student review and personal reflection remain to be recorded; no student execution is assumed.
+Step 7 is complete. Steps 8-9 are also complete: baseline and indexed measurements are saved with unchanged results and a qualified comparison. Codex authored and executed these case-specific queries and verified their results. Student review and personal reflection remain to be recorded; no student execution is assumed.
 
 ## Benchmark baseline
 
 See the [method](Leigh_Olaotan_301920357_P2_BenchmarkMethod.md), [before plans](Leigh_Olaotan_301920357_P2_BeforePlans.txt), [five-run timings](Leigh_Olaotan_301920357_P2_BeforeTimings.csv) and [metadata/exact results](Leigh_Olaotan_301920357_P2_BeforeMetadata.json). Full measured plans are in [BeforePlans.json](Leigh_Olaotan_301920357_P2_BeforePlans.json). The candidate index was absent during this checkpoint.
+
+## Optimisation result
+
+The [performance analysis](Leigh_Olaotan_301920357_P2_PerformanceAnalysis.md) explains the measured 19.032 → 0.578 ms selective-query median, unchanged broad scan, added storage and memory/cache limits. [After metadata](Leigh_Olaotan_301920357_P2_AfterMetadata.json), [full plans](Leigh_Olaotan_301920357_P2_AfterPlans.json) and [timings](Leigh_Olaotan_301920357_P2_AfterTimings.csv) preserve the evidence.

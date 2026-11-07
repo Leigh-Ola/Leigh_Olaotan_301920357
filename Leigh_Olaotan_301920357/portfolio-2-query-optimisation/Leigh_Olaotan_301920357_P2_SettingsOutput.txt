@@ -1,0 +1,10 @@
+         name         | setting | unit |       source       
+----------------------+---------+------+--------------------
+ block_size           | 8192    |      | default
+ effective_cache_size | 524288  | 8kB  | default
+ random_page_cost     | 4       |      | default
+ seq_page_cost        | 1       |      | default
+ shared_buffers       | 50      | 8kB  | configuration file
+ work_mem             | 4096    | kB   | default
+(6 rows)
+
