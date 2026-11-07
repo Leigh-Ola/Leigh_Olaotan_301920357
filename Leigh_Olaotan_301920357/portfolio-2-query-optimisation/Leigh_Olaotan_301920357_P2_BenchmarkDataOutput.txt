@@ -1,0 +1,37 @@
+Pager usage is off.
+SET
+ current_database  |       current_timestamp       |                                            version                                             
+-------------------+-------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_benchmark | 2026-11-07 07:55:21.551341+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+BEGIN
+LOCK TABLE
+DO
+INSERT 0 10000
+INSERT 0 100
+INSERT 0 300000
+INSERT 0 600000
+INSERT 0 120000
+DO
+COMMIT
+VACUUM
+VACUUM
+VACUUM
+VACUUM
+VACUUM
+ table_name  | count  
+-------------+--------
+ product     |    100
+ customer    |  10000
+ payment     | 120000
+ sales_order | 300000
+ order_item  | 600000
+(5 rows)
+
+ order_status | count  
+--------------+--------
+ cancelled    |  30000
+ placed       | 270000
+(2 rows)
+

@@ -1,0 +1,31 @@
+selective_history representative text plan (extra diagnostic execution, not a measured sample):
+Limit  (cost=8116.54..8116.57 rows=10 width=32) (actual time=18.863..18.865 rows=10 loops=1)
+  Buffers: shared hit=6 read=2861
+  InitPlan 1
+    ->  Index Scan using uq_customer_code on customer  (cost=0.29..8.30 rows=1 width=8) (actual time=0.141..0.143 rows=1 loops=1)
+          Index Cond: ((customer_code)::text = 'BC00042'::text)
+          Buffers: shared read=3
+  ->  Sort  (cost=8108.24..8108.27 rows=13 width=32) (actual time=18.862..18.863 rows=10 loops=1)
+        Sort Key: o.ordered_at DESC, o.order_id DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=6 read=2861
+        ->  Seq Scan on sales_order o  (cost=0.00..8108.00 rows=13 width=32) (actual time=8.064..18.829 rows=13 loops=1)
+              Filter: ((ordered_at >= '2024-04-01 00:00:00+00'::timestamp with time zone) AND (ordered_at < '2024-07-01 00:00:00+00'::timestamp with time zone) AND (customer_id = (InitPlan 1).col1))
+              Rows Removed by Filter: 299987
+              Buffers: shared read=2861
+Planning:
+  Buffers: shared hit=133 read=39
+Planning Time: 3.870 ms
+Execution Time: 18.934 ms
+
+broad_status representative text plan (extra diagnostic execution, not a measured sample):
+Aggregate  (cost=7284.30..7284.31 rows=1 width=8) (actual time=45.745..45.746 rows=1 loops=1)
+  Buffers: shared read=2858
+  ->  Seq Scan on sales_order  (cost=0.00..6608.00 rows=270520 width=0) (actual time=0.044..32.022 rows=270000 loops=1)
+        Filter: ((order_status)::text = 'placed'::text)
+        Rows Removed by Filter: 30000
+        Buffers: shared read=2858
+Planning:
+  Buffers: shared hit=44 read=37
+Planning Time: 3.497 ms
+Execution Time: 45.783 ms

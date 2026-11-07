@@ -31,4 +31,8 @@ On this workstation Docker is `/Users/user/.docker/bin/docker` if absent from PA
 
 ## Current checkpoint and assistance
 
-Step 7 is complete. The larger benchmark, baseline and optimisation comparison follow in steps 8-9. Codex authored and executed these case-specific queries and verified their results. Student review and personal reflection remain to be recorded; no student execution is assumed.
+Step 7 is complete. Step 8 has also captured the separate benchmark baseline; step 9 will add and measure the index. Codex authored and executed these case-specific queries and verified their results. Student review and personal reflection remain to be recorded; no student execution is assumed.
+
+## Benchmark baseline
+
+See the [method](Leigh_Olaotan_301920357_P2_BenchmarkMethod.md), [before plans](Leigh_Olaotan_301920357_P2_BeforePlans.txt), [five-run timings](Leigh_Olaotan_301920357_P2_BeforeTimings.csv) and [metadata/exact results](Leigh_Olaotan_301920357_P2_BeforeMetadata.json). Full measured plans are in [BeforePlans.json](Leigh_Olaotan_301920357_P2_BeforePlans.json). The candidate index was absent during this checkpoint.
