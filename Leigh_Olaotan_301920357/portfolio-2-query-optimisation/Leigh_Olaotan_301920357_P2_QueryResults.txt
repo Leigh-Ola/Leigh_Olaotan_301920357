@@ -1,0 +1,64 @@
+Pager usage is off.
+SET
+BEGIN
+     database      |          executed_at          |                                            version                                             
+-------------------+-------------------------------+------------------------------------------------------------------------------------------------
+ mit8103_portfolio | 2026-11-07 07:53:08.740248+00 | PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+(1 row)
+
+Q1: What are the current placed orders, their historical totals and payment states?
+ order_number | customer_code | line_count | order_total | payment_state 
+--------------+---------------+------------+-------------+---------------
+ O1001        | C001          |          2 |     4300.00 | paid
+ O1002        | C002          |          1 |     1000.00 | unpaid
+ O1003        | C003          |          2 |     8000.00 | paid
+ O1005        | C004          |          2 |     4200.00 | paid
+ O1006        | C005          |          1 |     8000.00 | paid
+ O1007        | C002          |          2 |     5500.00 | unpaid
+(6 rows)
+
+Q2: Which products generated the most paid sales, using agreed historical prices?
+  sku  | units_sold | paid_sales 
+-------+------------+------------
+ CAL01 |          1 |    8000.00
+ NTB01 |          3 |    4500.00
+ STP01 |          1 |    3500.00
+ PAP01 |          1 |    2500.00
+ ENV01 |          2 |    2400.00
+ MRK01 |          1 |    1800.00
+ PEN01 |          2 |    1800.00
+(7 rows)
+
+Q3: Which placed orders still await payment?
+ order_number | customer_code | outstanding_amount 
+--------------+---------------+--------------------
+ O1007        | C002          |            5500.00
+ O1002        | C002          |            1000.00
+(2 rows)
+
+Q4: How many orders and how much settled value belong to each customer, including customers without orders?
+ customer_code | all_orders | cancelled_orders | paid_orders | settled_value 
+---------------+------------+------------------+-------------+---------------
+ C001          |          2 |                1 |           1 |       4300.00
+ C002          |          2 |                0 |           0 |             0
+ C003          |          2 |                1 |           1 |       8000.00
+ C004          |          1 |                0 |           1 |       4200.00
+ C005          |          1 |                0 |           1 |       8000.00
+ C006          |          0 |                0 |           0 |             0
+(6 rows)
+
+Q5: Which active products are at or below the five-unit reorder threshold?
+  sku  | stock_quantity | unit_price 
+-------+----------------+------------
+ ENV01 |              0 |    1200.00
+ MRK01 |              1 |    1800.00
+ STP01 |              5 |    3500.00
+(3 rows)
+
+Q6: Which catalogue products have never appeared on any order, including cancelled orders?
+  sku  | product_name 
+-------+--------------
+ FLD01 | Folder
+(1 row)
+
+COMMIT

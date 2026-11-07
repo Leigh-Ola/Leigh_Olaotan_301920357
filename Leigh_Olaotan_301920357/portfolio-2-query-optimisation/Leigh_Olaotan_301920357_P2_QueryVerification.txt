@@ -1,0 +1,11 @@
+Executed 2026-11-07T07:53:26.351012+00:00
+Database: mit8103_portfolio
+Expected values independently calculated from the small seed fixture.
+Queries SHA256 c13c9250dff093da5f5b10ee698a4786a9bcc6540bd285eb43167acc8e8b78f5
+PASS Q1: all 6 ordered rows and every value match expected results.
+PASS Q2: all 7 ordered rows and every value match expected results.
+PASS Q3: all 2 ordered rows and every value match expected results.
+PASS Q4: all 6 ordered rows and every value match expected results.
+PASS Q5: all 3 ordered rows and every value match expected results.
+PASS Q6: all 1 ordered rows and every value match expected results.
+PASS Q2/Q4 reconciliation: paid product sales and customer settled value both total NGN 24,500; outstanding placed orders total NGN 6,500.
