@@ -1,0 +1,22 @@
+# Recorded evidence and exported assets keep their original bytes.
+**/*.txt
+**/*.csv
+**/*.svg
+**/*Metadata.json
+**/*Plans.json
+package-lock.json
+
+# Dependencies, external sources, credentials and database/runtime files.
+node_modules/
+.git/
+temp/runtime/
+temp/tools/
+temp/logs/
+temp/sources/*_repo_snapshot/
+temp/sources/*MANIFEST.json
+temp/work/**/node_modules/
+temp/work/**/package-lock.json
+temp/work/**/gh_release.json
+temp/work/formatting/*_release.json
+temp/work/formatting/before_hashes.json
+.env*

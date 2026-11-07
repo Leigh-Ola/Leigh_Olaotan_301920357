@@ -7,4 +7,6 @@ temp/
 !.env.example
 .DS_Store
 node_modules/
+__pycache__/
+*.py[cod]
 *.log

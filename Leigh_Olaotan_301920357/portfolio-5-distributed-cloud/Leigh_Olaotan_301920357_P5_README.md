@@ -4,4 +4,5 @@ Case-specific proposed architecture, failure behaviour and distributed/cloud dis
 
 ## Current evidence
 
-This component currently contains its introductory documentation. No implementation or test result is claimed at this checkpoint.
+This component currently contains its introductory documentation. No implementation or
+test result is claimed at this checkpoint.

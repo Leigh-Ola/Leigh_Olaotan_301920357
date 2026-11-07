@@ -1,0 +1,11 @@
+target-version = "py39"
+line-length = 88
+cache-dir = "temp/tools/formatting/ruff-cache"
+
+[lint]
+select = ["E401"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

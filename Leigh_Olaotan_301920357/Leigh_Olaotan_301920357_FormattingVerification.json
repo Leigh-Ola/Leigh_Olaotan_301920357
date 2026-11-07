@@ -1,0 +1,99 @@
+{
+  "executed_at": "2026-11-07T08:25:36.066066+00:00",
+  "historical_source_commit": "5a0900a1ec59d09c71751f2be21c763c839605df",
+  "purpose": "Formatting-only verification; historical evidence remains unchanged.",
+  "formatters": {
+    "prettier": "3.9.10",
+    "ruff": "0.17.4",
+    "pgFormatter": "5.11"
+  },
+  "checks": [
+    "All 13 portfolio SQL/Python files retain their Python AST or SQL token sequence; only split imports normalized for comparison.",
+    "All 23 historical evidence/export files remain byte-for-byte unchanged.",
+    "P1 schema/seed and all 78 rejection, eight valid-boundary, one row-state and six documented workflow-gap probes passed in a fresh database with offset IDs.",
+    "All six P2 business queries return every expected ordered value on the fresh fixture.",
+    "P3 commit/rollback, 25 enforcement checks and all four concurrency/isolation scenarios passed, including three observed lock waits; every final business field matches the original exercise.",
+    "P2 regenerated the 1,030,100-row benchmark and completed both runner phases and index creation with identical ordered results. New diagnostic timings are kept separately under temp/logs/formatting/replay; published timings were not replaced.",
+    "Primary P1 and P3 business data remain unchanged; the original benchmark database was not modified."
+  ],
+  "sources": {
+    "portfolio-1-database-design/Leigh_Olaotan_301920357_P1_SeedData.sql": {
+      "historical_sha256": "352ef7b1f81cdb693f0995f3983211b0057007314282bf2d1a94d1a0c4c72805",
+      "formatted_sha256": "924bc32d67eefe74e0fc7d2c52c409ade83c8ce34af685df2a8dc12e46b28a10"
+    },
+    "portfolio-1-database-design/Leigh_Olaotan_301920357_P1_ConstraintTests.sql": {
+      "historical_sha256": "eb6e8ca414cf38eb364e0158ab2047d8ca91b8621b8a69fa493824f338955b31",
+      "formatted_sha256": "f87dadd7d80a83a1b104e3342ede3324e517b6db38fd3b218790347fe383291e"
+    },
+    "portfolio-1-database-design/Leigh_Olaotan_301920357_P1_Schema.sql": {
+      "historical_sha256": "31201c214247a5097628ab6d4d4abe11af2d117958c0c4013fe25f0b85f255eb",
+      "formatted_sha256": "c2ac31ab0ac99d0b68480c011cd2aa6cc530ada0d12bd54f638390e673f2b145"
+    },
+    "portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_Transactions.sql": {
+      "historical_sha256": "9ccc05f1944c9086d519eb4842aef5a61675c786d944b6b14af794789ea3a635",
+      "formatted_sha256": "2946a0b6dccc32bb5dda55f01bdd78b3140db10d6072ea41d41583f8c94cd380"
+    },
+    "portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_Workflows.sql": {
+      "historical_sha256": "4bbefde204b2aa90920d3a61b727e98175238b5b53c99343be998aae6ebe3be7",
+      "formatted_sha256": "c76065ba7e68d738891a7bf416038f120216b8a8a59cda4dca1083cdfd382886"
+    },
+    "portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_Concurrency.py": {
+      "historical_sha256": "82cee6094ac42e40c5681780d6df24477cbcefe0d93a5400926b8c32166e064e",
+      "formatted_sha256": "c3cb5e24dee5eedd73447260b6ae2f935479f4d3187cddd061966b11c7770dba"
+    },
+    "portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_SessionB.sql": {
+      "historical_sha256": "6632576a26f5582a1d83d91c001144e96d6422c2c5dc3bba026fffa2e696dc87",
+      "formatted_sha256": "b95f5a601530637a103dac3f84b0094af25fdaa5ae35b284fb47d83dc2e50c12"
+    },
+    "portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_SessionA.sql": {
+      "historical_sha256": "52df09f5a4a9763bcc006c8800865c422dbd56f0224b4957b5fea1dcd7091122",
+      "formatted_sha256": "399dc12d7bb77e2c8bfa8a162eff5b0b4dfabb2f6e328a707b0e237f7184fb08"
+    },
+    "portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_Benchmark.py": {
+      "historical_sha256": "40b2d4c30076cc652aade4d42926682e6b6acda34cdb19e56cebd366644339a3",
+      "formatted_sha256": "de99f91f66c64ca01deb06b3560adc4c11c3a41b956a4daddf26928bc9c5e382"
+    },
+    "portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BenchmarkQueries.sql": {
+      "historical_sha256": "dc1d18149398564ba2815418994af1d759bd0f138c6266fdbd07a0750520e461",
+      "formatted_sha256": "c40485145f261734b0c04cd4482991464f6fbd13dbb659640be7dfcc7fcbe3ae"
+    },
+    "portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BenchmarkData.sql": {
+      "historical_sha256": "9f718071670aab1d077ca8feb3738b5d8fa4002df9caa43547713a6d24805a39",
+      "formatted_sha256": "57caa6118fe34f7c86584e9c81a625e5ba64b9be86a1a3e807f75d7c55d42ab3"
+    },
+    "portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_Queries.sql": {
+      "historical_sha256": "c13c9250dff093da5f5b10ee698a4786a9bcc6540bd285eb43167acc8e8b78f5",
+      "formatted_sha256": "0579ed781014081220fedf142f682dc507bb7e49d547fa16f3e4716866adfb68"
+    },
+    "portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_Optimisation.sql": {
+      "historical_sha256": "449c9a243491a3af75527504bfd1fc353e81efdd242c0ee63214c76f4f49ff7e",
+      "formatted_sha256": "d12d3889594bee13409e6ba2cf46e93efa0ef7655479e7732514d4e2c1323435"
+    }
+  },
+  "unchanged_evidence_files": [
+    "Leigh_Olaotan_301920357/Leigh_Olaotan_301920357_EnvironmentChecks.txt",
+    "Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_ConstraintResults.txt",
+    "Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_ERDiagram.svg",
+    "Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_SchemaOutput.txt",
+    "Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_SeedOutput.txt",
+    "Leigh_Olaotan_301920357/portfolio-1-database-design/Leigh_Olaotan_301920357_P1_Verification.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_AfterMetadata.json",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_AfterPlans.json",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_AfterPlans.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_AfterTimings.csv",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BeforeMetadata.json",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BeforePlans.json",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BeforePlans.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BeforeTimings.csv",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_BenchmarkDataOutput.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_IndexOutput.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_QueryResults.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_QueryVerification.txt",
+    "Leigh_Olaotan_301920357/portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_SettingsOutput.txt",
+    "Leigh_Olaotan_301920357/portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_ConcurrencyResults.txt",
+    "Leigh_Olaotan_301920357/portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_TransactionResults.txt",
+    "Leigh_Olaotan_301920357/portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_Verification.txt",
+    "Leigh_Olaotan_301920357/portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_WorkflowOutput.txt"
+  ],
+  "postgres_version": "PostgreSQL 17.11 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit"
+}
