@@ -1,0 +1,13 @@
+P4 verification executed 2026-11-07T20:03:31.053097+00:00
+Database: mit8103_order_events; independently populated replay: mit8103_order_events_replay_20261107
+PASS: retained MongoDB setup, seven queries and all validation/boundary checks completed successfully.
+PASS: every stored BSON value, validation option and index matches the separately loaded replay; temporary validation collections were removed.
+PASS: the Extended JSON example decodes to exactly the stored EV001 document.
+PASS: all eight order references, customer snapshots, 13 item snapshots, dates, four full payments and two cancellations agree with the independent live P1 fixture.
+PASS: setup refuses an existing collection and a non-portfolio database; MongoDB fixture and PostgreSQL business data remain unchanged.
+Removed only mit8103_order_events_replay_20261107; retained the primary 14-event database.
+SHA256 Leigh_Olaotan_301920357_P4_Definitions.js d0a8672459a1f866cec11c96eda404ebd080fa69d08dc8144d59ddad0abf9dea
+SHA256 Leigh_Olaotan_301920357_P4_MongoDB.js 684109d487eb0510f3f845acd3c08f77505c3c722315c3b173160bba01380423
+SHA256 Leigh_Olaotan_301920357_P4_Queries.js ba6921823be40e57d971de73f1d815ab233560861ba6af31e549144a92e4403c
+SHA256 Leigh_Olaotan_301920357_P4_ValidationTests.js 7445dc745f5440003e5e60ad3b23aee08859a3beb4a12406b1ada7280025cffb
+SHA256 Leigh_Olaotan_301920357_P4_ExampleDocument.json c95f46ea5fcea0cd4b3bfc1e9b5f8e9a42bc2d98c19ab7d7df6a8fdceb3603f4

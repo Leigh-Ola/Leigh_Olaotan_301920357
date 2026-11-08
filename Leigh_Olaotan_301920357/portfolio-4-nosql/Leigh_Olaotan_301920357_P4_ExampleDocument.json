@@ -1,0 +1,30 @@
+{
+  "_id": "EV001",
+  "schema_version": { "$numberInt": "1" },
+  "source": "manual_fixture",
+  "event_type": "order_placed",
+  "occurred_at": { "$date": "2026-11-01T08:00:00.000Z" },
+  "order_number": "O1001",
+  "customer": {
+    "customer_code": "C001",
+    "full_name": "Ada Ojo"
+  },
+  "details": {
+    "channel": "web",
+    "currency": "NGN",
+    "items": [
+      {
+        "sku": "PEN01",
+        "product_name": "Pen pack",
+        "quantity": { "$numberInt": "2" },
+        "unit_price": { "$numberDecimal": "900.00" }
+      },
+      {
+        "sku": "PAP01",
+        "product_name": "Paper ream",
+        "quantity": { "$numberInt": "1" },
+        "unit_price": { "$numberDecimal": "2500.00" }
+      }
+    ]
+  }
+}

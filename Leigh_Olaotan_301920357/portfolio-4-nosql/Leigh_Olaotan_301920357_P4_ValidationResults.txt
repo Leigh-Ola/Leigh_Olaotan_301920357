@@ -1,0 +1,245 @@
+Executed with mongosh --norc --quiet against local mit8103_order_events
+SHA256 Leigh_Olaotan_301920357_P4_ValidationTests.js 7445dc745f5440003e5e60ad3b23aee08859a3beb4a12406b1ada7280025cffb
+SHA256 Leigh_Olaotan_301920357_P4_Definitions.js d0a8672459a1f866cec11c96eda404ebd080fa69d08dc8144d59ddad0abf9dea
+
+Execution environment
+{
+  "executed_at": {
+    "$date": "2026-11-07T20:03:33.247Z"
+  },
+  "database": "mit8103_order_events",
+  "server_version": "7.0.43",
+  "topology": "standalone"
+}
+
+Rejection checks; each left all 14 scratch documents unchanged
+[
+  {
+    "test": "Missing order number",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "String instead of BSON date",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Unknown top-level field",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Unknown event type",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Blank customer name",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Missing payment reference",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "String payment amount",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Zero payment amount",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Non-finite payment amount",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Negative quantity",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Fractional quantity",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Empty item array",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Unknown nested item field",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Wrong currency",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Mismatched event details",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Unknown cancellation reason",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Malformed customer code",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Missing schema version",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  },
+  {
+    "test": "Duplicate event ID",
+    "outcome": "PASS",
+    "actual_code": 11000,
+    "message": "E11000 duplicate key error collection: mit8103_order_events.order_events_validation_149c64f155b94542ac779be422a79505 index: _id_ dup key: { _id: \"EV001\" }"
+  },
+  {
+    "test": "Duplicate order/event combination",
+    "outcome": "PASS",
+    "actual_code": 11000,
+    "message": "E11000 duplicate key error collection: mit8103_order_events.order_events_validation_149c64f155b94542ac779be422a79505 index: unique_order_event dup key: { order_number: \"O1001\", event_type: \"order_placed\" }"
+  },
+  {
+    "test": "Invalid update is rejected too",
+    "outcome": "PASS",
+    "actual_code": 121,
+    "message": "Document failed validation"
+  }
+]
+
+Three accepted structural boundaries (not proof of valid order workflow)
+[
+  {
+    "_id": "EV940",
+    "schema_version": 1,
+    "source": "manual_fixture",
+    "event_type": "payment_recorded",
+    "occurred_at": {
+      "$date": "2026-11-01T08:10:00Z"
+    },
+    "order_number": "O9040",
+    "customer": {
+      "customer_code": "C001",
+      "full_name": "Ada Ojo"
+    },
+    "details": {
+      "payment_reference": "PAY5001",
+      "amount": {
+        "$numberDecimal": "0.01"
+      },
+      "currency": "NGN",
+      "method": "bank_transfer"
+    }
+  },
+  {
+    "_id": "EV941",
+    "schema_version": 1,
+    "source": "manual_fixture",
+    "event_type": "payment_recorded",
+    "occurred_at": {
+      "$date": "2026-11-01T08:10:00Z"
+    },
+    "order_number": "O9041",
+    "customer": {
+      "customer_code": "C001",
+      "full_name": "Ada Ojo"
+    },
+    "details": {
+      "payment_reference": "PAY5001",
+      "amount": {
+        "$numberDecimal": "999999999999.99"
+      },
+      "currency": "NGN",
+      "method": "bank_transfer"
+    }
+  },
+  {
+    "_id": "EV942",
+    "schema_version": 1,
+    "source": "manual_fixture",
+    "event_type": "order_placed",
+    "occurred_at": {
+      "$date": "2026-11-01T08:00:00Z"
+    },
+    "order_number": "O9042",
+    "customer": {
+      "customer_code": "C001",
+      "full_name": "Ada Ojo"
+    },
+    "details": {
+      "channel": "web",
+      "currency": "NGN",
+      "items": [
+        {
+          "sku": "PEN01",
+          "product_name": "Pen pack",
+          "quantity": 1,
+          "unit_price": {
+            "$numberDecimal": "0.01"
+          }
+        }
+      ]
+    }
+  }
+]
+
+Four confirmed limitations; not successful business-rule enforcement
+[
+  {
+    "test": "No SQL foreign-key lookup: unknown order/customer accepted",
+    "temporary_id": "EV980",
+    "outcome": "LIMITATION CONFIRMED"
+  },
+  {
+    "test": "No cross-event full-payment total check: NGN 1 for O1002 accepted",
+    "temporary_id": "EV981",
+    "outcome": "LIMITATION CONFIRMED"
+  },
+  {
+    "test": "No cross-event paid/cancelled exclusion: payment for O1004 accepted",
+    "temporary_id": "EV982",
+    "outcome": "LIMITATION CONFIRMED"
+  },
+  {
+    "test": "No distinct-SKU rule within an item array: repeated SKU accepted",
+    "temporary_id": "EV983",
+    "outcome": "LIMITATION CONFIRMED"
+  }
+]
+Removed only temporary collection order_events_validation_149c64f155b94542ac779be422a79505
+PASS: 21 rejections, 3 valid structural boundaries, 4 documented limitations; retained 14-event fixture unchanged.

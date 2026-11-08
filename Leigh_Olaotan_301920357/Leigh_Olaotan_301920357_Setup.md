@@ -17,12 +17,13 @@ not schema, query-performance or transaction results.
 | Docker client/server          | 29.8.2 / 29.8.2                                                                                                                                                    |
 | MongoDB                       | Existing Community server 7.0.43 on `127.0.0.1:27017`                                                                                                              |
 | MongoDB shell                 | Existing mongosh 2.12.0                                                                                                                                            |
-| MongoDB portfolio database    | `mit8103_order_events` is the intended later database; not created at this checkpoint                                                                              |
+| MongoDB portfolio database    | `mit8103_order_events`, created in steps 12–13 with 14 documents in `order_events`; see [P4 evidence](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md)      |
 
 PostgreSQL supports the relational and SQL work. MongoDB supports the document-model
-component for the same shop. The existing MongoDB installation was left in place; only
-read-only `ping` and `buildInfo` commands were used. No application records were read or
-changed.
+component for the same shop. At the original step-3 checkpoint, only read-only `ping`
+and `buildInfo` commands were used. Steps 12–13 subsequently created the separate
+portfolio event collection, using the existing MongoDB installation without changing its
+service configuration.
 
 ## Separate exercise databases added in steps 8-11
 
@@ -38,8 +39,22 @@ changed.
 Two cluster-wide NOLOGIN practice roles, `mit8103_p3_owner` and `mit8103_p3_app`,
 support P3's controlled-operation demonstration. They have no login credentials.
 Independent verification databases were created and removed after their checks. All
-retained database storage is still in the same ignored runtime directory; deleting it
-would remove every exercise database.
+retained PostgreSQL database storage is still in the same ignored runtime directory;
+deleting it would remove every PostgreSQL exercise database.
+
+## MongoDB exercise added in steps 12–13
+
+On 7 November 2026, the existing MongoDB 7.0.43 service was verified as standalone and
+the unused `mit8103_order_events` database was populated with 14 fictional events. The
+[P4 README](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) links the exact
+model, commands, installed validator/indexes, query results and validation evidence. A
+separate database replay and read-only reconciliation with P1 both passed.
+
+The primary `order_events` collection remains available for inspection. Temporary
+validation collections and the dedicated replay database were removed after their
+checks. MongoDB continues to use its pre-existing service storage; it was not moved into
+the PostgreSQL runtime directory. This is local NoSQL implementation evidence, not a
+replication, sharding or cloud-deployment experiment.
 
 ## Using the existing PostgreSQL container
 

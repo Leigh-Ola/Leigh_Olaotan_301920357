@@ -1,0 +1,281 @@
+Executed with mongosh --norc --quiet against local mit8103_order_events
+SHA256 Leigh_Olaotan_301920357_P4_Queries.js ba6921823be40e57d971de73f1d815ab233560861ba6af31e549144a92e4403c
+SHA256 Leigh_Olaotan_301920357_P4_Definitions.js d0a8672459a1f866cec11c96eda404ebd080fa69d08dc8144d59ddad0abf9dea
+
+Execution environment
+{
+  "executed_at": {
+    "$date": "2026-11-07T20:03:32.684Z"
+  },
+  "database": "mit8103_order_events",
+  "server_version": "7.0.43",
+  "topology": "standalone"
+}
+
+Q1: event counts (14 total)
+[
+  {
+    "_id": "order_cancelled",
+    "count": 2
+  },
+  {
+    "_id": "order_placed",
+    "count": 8
+  },
+  {
+    "_id": "payment_recorded",
+    "count": 4
+  }
+]
+
+Q2: complete ordered O1001 event history
+[
+  {
+    "_id": "EV001",
+    "event_type": "order_placed",
+    "occurred_at": {
+      "$date": "2026-11-01T08:00:00Z"
+    },
+    "details": {
+      "channel": "web",
+      "currency": "NGN",
+      "items": [
+        {
+          "sku": "PEN01",
+          "product_name": "Pen pack",
+          "quantity": 2,
+          "unit_price": {
+            "$numberDecimal": "900.00"
+          }
+        },
+        {
+          "sku": "PAP01",
+          "product_name": "Paper ream",
+          "quantity": 1,
+          "unit_price": {
+            "$numberDecimal": "2500.00"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "_id": "EV002",
+    "event_type": "payment_recorded",
+    "occurred_at": {
+      "$date": "2026-11-01T08:10:00Z"
+    },
+    "details": {
+      "payment_reference": "PAY5001",
+      "amount": {
+        "$numberDecimal": "4300.00"
+      },
+      "currency": "NGN",
+      "method": "bank_transfer"
+    }
+  }
+]
+
+Q3: nested customer-code lookup for C003
+[
+  {
+    "_id": "EV004",
+    "event_type": "order_placed",
+    "order_number": "O1003"
+  },
+  {
+    "_id": "EV005",
+    "event_type": "payment_recorded",
+    "order_number": "O1003"
+  },
+  {
+    "_id": "EV013",
+    "event_type": "order_placed",
+    "order_number": "O1008"
+  },
+  {
+    "_id": "EV014",
+    "event_type": "order_cancelled",
+    "order_number": "O1008"
+  }
+]
+
+Q4: nested payment method (two payments totalling NGN 8,500)
+[
+  {
+    "_id": "EV002",
+    "order_number": "O1001",
+    "details": {
+      "payment_reference": "PAY5001",
+      "amount": {
+        "$numberDecimal": "4300.00"
+      },
+      "currency": "NGN",
+      "method": "bank_transfer"
+    }
+  },
+  {
+    "_id": "EV009",
+    "order_number": "O1005",
+    "details": {
+      "payment_reference": "PAY5005",
+      "amount": {
+        "$numberDecimal": "4200.00"
+      },
+      "currency": "NGN",
+      "method": "bank_transfer"
+    }
+  }
+]
+
+Q5: same array element has PEN01 and a price below NGN 1,000
+[
+  {
+    "_id": "EV001",
+    "order_number": "O1001",
+    "details": {
+      "items": [
+        {
+          "sku": "PEN01",
+          "product_name": "Pen pack",
+          "quantity": 2,
+          "unit_price": {
+            "$numberDecimal": "900.00"
+          }
+        },
+        {
+          "sku": "PAP01",
+          "product_name": "Paper ream",
+          "quantity": 1,
+          "unit_price": {
+            "$numberDecimal": "2500.00"
+          }
+        }
+      ]
+    }
+  }
+]
+
+Q6: exact Decimal128 payment total (matches P1/P2)
+[
+  {
+    "_id": "NGN",
+    "payments": 4,
+    "amount": {
+      "$numberDecimal": "24500.00"
+    }
+  }
+]
+
+Q7: latest fixture event remains placement (not authoritative live order status)
+[
+  {
+    "_id": "O1002",
+    "latest_event": "order_placed"
+  },
+  {
+    "_id": "O1007",
+    "latest_event": "order_placed"
+  }
+]
+
+Unhinted Q2 execution plan; tiny fixture, no performance-speedup claim
+{
+  "winningPlan": {
+    "stage": "PROJECTION_SIMPLE",
+    "transformBy": {
+      "_id": 1,
+      "event_type": 1,
+      "occurred_at": 1,
+      "details": 1
+    },
+    "inputStage": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "order_number": 1,
+          "occurred_at": 1,
+          "_id": 1
+        },
+        "indexName": "order_history",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "order_number": [],
+          "occurred_at": [],
+          "_id": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "order_number": [
+            "[\"O1001\", \"O1001\"]"
+          ],
+          "occurred_at": [
+            "[MinKey, MaxKey]"
+          ],
+          "_id": [
+            "[MinKey, MaxKey]"
+          ]
+        }
+      }
+    }
+  },
+  "nReturned": 2,
+  "totalKeysExamined": 2,
+  "totalDocsExamined": 2
+}
+
+Hinted diagnostic: index can satisfy the history access pattern
+{
+  "winningPlan": {
+    "stage": "PROJECTION_SIMPLE",
+    "transformBy": {
+      "_id": 1,
+      "event_type": 1,
+      "occurred_at": 1,
+      "details": 1
+    },
+    "inputStage": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "order_number": 1,
+          "occurred_at": 1,
+          "_id": 1
+        },
+        "indexName": "order_history",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "order_number": [],
+          "occurred_at": [],
+          "_id": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": 2,
+        "direction": "forward",
+        "indexBounds": {
+          "order_number": [
+            "[\"O1001\", \"O1001\"]"
+          ],
+          "occurred_at": [
+            "[MinKey, MaxKey]"
+          ],
+          "_id": [
+            "[MinKey, MaxKey]"
+          ]
+        }
+      }
+    }
+  },
+  "nReturned": 2,
+  "totalKeysExamined": 2,
+  "totalDocsExamined": 2
+}
+PASS: all seven query expectations and both plan result counts checked.

@@ -26,7 +26,7 @@ the distributed-database discussion.
 | P1        | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md)             | Design, executed schema, 39 fictional records, integrity tests and independent replay                         |
 | P2        | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md)      | Six verified business queries, measured baseline/index comparison and analysis                                |
 | P3        | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md)     | Controlled operations, commit/rollback, 25 rejection checks and four verified concurrency/isolation scenarios |
-| P4        | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md)                      | Introductory documentation                                                                                    |
+| P4        | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md)                      | MongoDB event model, 14 typed documents, seven verified queries, validator/index tests and independent replay |
 | P5        | [Distributed and Cloud Database Exercise](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Introductory documentation                                                                                    |
 
 ## Environment
@@ -38,10 +38,10 @@ connectivity and versions; they do not claim portfolio implementation results.
 
 ## Current checkpoint
 
-Steps 1-11 are implemented, including verified business queries, measured optimisation,
-controlled transactions and independent-session isolation/concurrency evidence. Step 12
-is next: the MongoDB document model. MongoDB implementation, the distributed discussion
-and final documentation/review remain pending.
+Steps 1–13 are implemented, including verified SQL queries, measured optimisation,
+controlled transactions, concurrency/isolation evidence and the MongoDB event model.
+Step 14 is next: the distributed/cloud architecture discussion. The final summary,
+individual reflection and submission review also remain pending.
 
 ## Evidence and access
 
