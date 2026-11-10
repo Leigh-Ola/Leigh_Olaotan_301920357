@@ -1,7 +1,9 @@
 """Run the saved A/B blocks on persistent independent psql sessions.
 A third administrative observer reads actual blocking PIDs and final invariants.
 No fixed sleep is used to decide when to release a lock: poll observed blocking.
-Python 3 standard library; Docker/psql required. Fresh step-10 database only.
+Python 3 standard library; Docker/psql required.
+Use a fresh database after running the P1 schema/seed and P3 workflows/transactions.
+The P3 README gives the full setup sequence and required starting state.
 """
 
 import argparse

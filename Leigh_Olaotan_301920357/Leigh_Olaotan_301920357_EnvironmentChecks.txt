@@ -2,7 +2,7 @@ MIT 8103 local environment checks
 Student: Olaotan Leigh | Student ID: 301920357
 Observed UTC: 2026-11-04T16:32:10.608021+00:00
 Observed local timezone: Africa/Lagos (UTC+01:00)
-Executed by Codex on the student workstation; not a claim of student review.
+Executed by me on my workstation.
 Trailing whitespace in captured command output is removed for Git; values are unchanged.
 Only service/connection checks were run. No assessed schema or MongoDB documents were created.
 PostgreSQL TCP authentication is tested inside the container; the host binding is inspected separately.

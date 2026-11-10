@@ -1,4 +1,4 @@
--- Apply only AFTER preserving and committing the unindexed baseline.
+-- Apply only after saving the unindexed benchmark results in a separate output directory.
 \set ON_ERROR_STOP on
 \pset pager off
 SELECT

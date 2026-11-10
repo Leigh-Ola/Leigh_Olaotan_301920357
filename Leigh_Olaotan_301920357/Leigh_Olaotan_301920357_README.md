@@ -6,67 +6,45 @@ Student ID: 301920357
 
 Academic session: 2026/2027, first semester
 
-The [private GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_301920357)
-records the practical database portfolio and its supporting evidence. The identity-named
-folder contains assessment deliverables. Temporary planning, downloaded references,
-working drafts, logs and local database runtime files are excluded by the root Git
-ignore rules.
+This [GitHub repository](https://github.com/Leigh-Ola/Leigh_Olaotan_301920357) contains the database portfolio and its evidence. The `Leigh_Olaotan_301920357` folder contains all submission files. File paths in this README are relative to that folder.
 
 ## Case study
 
-[Harbour Office Supplies](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_CaseStudy.md)
-is a fictional Nigerian online stationery shop with one stockroom. It provides a shared
-case for relational design, SQL reporting, stock transactions, MongoDB order events and
-the distributed-database discussion.
+[Harbour Office Supplies](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_CaseStudy.md) is a fictional Nigerian online stationery shop with one stockroom. All five activities use this case. PostgreSQL stores business records. MongoDB stores order events. All business data is fictional.
 
-## Components
+## Portfolio components
 
-| Component | Documentation                                                                                                 | Current evidence                                                                                              |
-| --------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| P1        | [Database Design and Modelling](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md)             | Design, executed schema, 39 fictional records, integrity tests and independent replay                         |
-| P2        | [Query Processing and Optimisation](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md)      | Six verified business queries, measured baseline/index comparison and analysis                                |
-| P3        | [Transactions and Concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md)     | Controlled operations, commit/rollback, 25 rejection checks and four verified concurrency/isolation scenarios |
-| P4        | [NoSQL and Advanced Data Models](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md)                      | MongoDB event model, 14 typed documents, seven verified queries, validator/index tests and independent replay |
-| P5        | [Distributed and Cloud Database Exercise](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Introductory documentation                                                                                    |
+| Component | Documents | Evidence |
+| --- | --- | --- |
+| P1 | [Database design](portfolio-1-database-design/Leigh_Olaotan_301920357_P1_README.md) | Five tables, 39 records, constraints, normalisation and replay tests. |
+| P2 | [Queries and performance](portfolio-2-query-optimisation/Leigh_Olaotan_301920357_P2_README.md) | Six business queries, measured plans and an index comparison. |
+| P3 | [Transactions and concurrency](portfolio-3-transactions-concurrency/Leigh_Olaotan_301920357_P3_README.md) | Commit, rollback, 25 rejection tests and four session tests. |
+| P4 | [NoSQL model](portfolio-4-nosql/Leigh_Olaotan_301920357_P4_README.md) | Fourteen events, seven queries, validation tests and replay tests. |
+| P5 | [Distributed database discussion](portfolio-5-distributed-cloud/Leigh_Olaotan_301920357_P5_README.md) | Proposed architecture, failure cases, consistency, sharding and recovery. |
 
-## Environment
+P1 to P5 mean Portfolio 1 to Portfolio 5. Each component has its own README, file list and explanation.
 
-[Setup and connection instructions](Leigh_Olaotan_301920357_Setup.md) describe the local
-PostgreSQL and MongoDB services.
-[Recorded environment checks](Leigh_Olaotan_301920357_EnvironmentChecks.txt) establish
-connectivity and versions; they do not claim portfolio implementation results.
+## Run the exercises
 
-## Current checkpoint
+Start with the [setup instructions](Leigh_Olaotan_301920357_Setup.md). They define the tools, working directory and database setup. The same instructions support a Git checkout or an extracted submission folder. All exercise scripts are inside this submission folder.
 
-Steps 1–13 are implemented, including verified SQL queries, measured optimisation,
-controlled transactions, concurrency/isolation evidence and the MongoDB event model.
-Step 14 is next: the distributed/cloud architecture discussion. The final summary,
-individual reflection and submission review also remain pending.
+## Summary and supporting documents
 
-## Evidence and access
+- [Three-page summary](Leigh_Olaotan_301920357_FinalSummary.pdf).
+- [Editable summary source](Leigh_Olaotan_301920357_FinalSummary.md).
+- [AI-use declaration and student confirmation](Leigh_Olaotan_301920357_AIUse.md).
+- [References](Leigh_Olaotan_301920357_References.md).
+- [Technical terms](Leigh_Olaotan_301920357_Terms.md).
+- [Local setup](Leigh_Olaotan_301920357_Setup.md) and [connection output](Leigh_Olaotan_301920357_EnvironmentChecks.txt).
 
-Scripts, actual outputs and explanations belong with their component. The repository
-history records changes as work is completed. Assessor access must be arranged before
-submission; no assessor has been invited at this checkpoint.
+## Evidence and language
 
-The source files were subsequently formatted with Prettier, Ruff and pgFormatter. The
-[formatting verification](Leigh_Olaotan_301920357_FormattingVerification.json) maps the
-source hashes at commit `5a0900a` to the formatted files and records a fresh P1–P3
-replay. Historical outputs and benchmark measurements retain their original bytes and
-hashes; the separate replay confirms the current sources.
+Each component contains its scripts, actual output and explanation. P5 is a design discussion. It is not a deployed cloud system.
 
-Repository maintenance uses `npm run format` followed by `npm run format:check`. See the
-[formatter setup](../scripts/README.md). These tools also cover authored plans and
-helpers in ignored `temp/`; they are not database runtime dependencies.
+Submission descriptions use Simplified Technical English. The terms document defines database vocabulary. Commands, identifiers, quoted source titles and captured output keep their original form.
 
-## Source and assistance record
+The [source verification record](Leigh_Olaotan_301920357_FormattingVerification.json) explains the hashes in the saved evidence. It records the original source hashes, formatted source hashes and current source hashes. Historical query plans, measurements and database output retain their recorded values. Report titles and source comments do not define the test results.
 
-The supplied Miva MIT 8103 assessment defines the requirements. The
-[external codelab](https://github.com/arizonal2014/MIT8103_Codelab/tree/619af2bb8394ad020fc29223acaedf80f3423a61)
-is a learning reference. Its code, screenshots and measurements are not represented as
-this student's execution evidence.
+## Assistance
 
-Codex assisted with source review, repository organisation, documentation,
-schema/data/test implementation and local execution. The component READMEs record
-assistance and verification details. No claim is made here that the student has
-personally run or checked an implementation.
+Codex helped to prepare and tested the implementation under my directions. I reviewed the scripts and results and performed the checks described in the AI-use declaration.

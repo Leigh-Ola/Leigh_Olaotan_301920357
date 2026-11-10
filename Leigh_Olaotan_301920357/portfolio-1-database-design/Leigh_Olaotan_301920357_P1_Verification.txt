@@ -1,4 +1,4 @@
-Harbour Office Supplies: step 5-6 independent replay and guard verification
+Harbour Office Supplies: schema, seed and constraint replay verification
 Executed: 2026-11-04T17:46:14.842476+00:00
 Primary database: mit8103_portfolio
 Isolated fresh verification database: mit8103_p1_replay_20261104

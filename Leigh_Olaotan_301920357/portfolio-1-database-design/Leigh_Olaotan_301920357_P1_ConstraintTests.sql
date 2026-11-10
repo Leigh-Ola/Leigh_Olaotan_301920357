@@ -1,8 +1,8 @@
--- Harbour Office Supplies: targeted integrity tests for the step-6 fixture.
+-- Harbour Office Supplies: integrity tests for the 39-row P1 seed fixture.
 -- Run after P1_Schema.sql and P1_SeedData.sql, using psql and ON_ERROR_STOP.
 -- A wrong error, unexpectedly accepted input, or changed fixture aborts the run.
 -- All test writes are rolled back. Identity sequences can still acquire gaps.
--- WORKFLOW_BOUNDARY results expose missing later controls; they are NOT valid
+-- WORKFLOW_BOUNDARY results expose limits of the base schema; they are NOT valid
 -- business operations and are deliberately separate from acceptance tests.
 \set ON_ERROR_STOP on
 \pset pager off
@@ -83,7 +83,7 @@ BEGIN
         count(*)
     FROM
         public.payment) <> 4 THEN
-        RAISE EXCEPTION 'Tests require the unchanged 39-row step-6 seed fixture';
+        RAISE EXCEPTION 'Tests require the unchanged 39-row P1 seed fixture';
     END IF;
 END
 $$;

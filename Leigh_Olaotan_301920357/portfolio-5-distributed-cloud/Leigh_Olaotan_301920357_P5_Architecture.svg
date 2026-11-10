@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1000" height="720" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>Harbour Office Supplies: proposed database architecture</title>
+	<desc>Proposed PostgreSQL primary and standby, MongoDB replica set, event publisher and separate backup store. This system has not been deployed.</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1000" height="720"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-720)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1000" height="720" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="680" style="font-family: Helvetica-Bold; font-size: 24px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,1360) scale(1,-1)">Proposed database architecture</text>
+			<text x="30" y="655" style="font-family: Helvetica; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,1310) scale(1,-1)">Harbour Office Supplies | Proposed components only</text>
+			<rect x="410" y="580" width="180" height="46" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,94%,96%); fill-rule: evenodd;"/>
+			<text x="445.829" y="599.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,1198) scale(1,-1)">Customer or staff</text>
+			<rect x="410" y="475" width="180" height="56" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,94%,96%); fill-rule: evenodd;"/>
+			<text x="459.5375" y="508.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,1016) scale(1,-1)">Shop service</text>
+			<text x="463.6175" y="489.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,978) scale(1,-1)">Zones A and B</text>
+			<rect x="70" y="340" width="220" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,94%,96%); fill-rule: evenodd;"/>
+			<text x="138.101" y="375.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,750) scale(1,-1)">PG-A primary</text>
+			<text x="127.8215" y="356.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,712) scale(1,-1)">PostgreSQL | Zone A</text>
+			<rect x="70" y="200" width="220" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,94%,96%); fill-rule: evenodd;"/>
+			<text x="137.022" y="235.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,470) scale(1,-1)">PG-B standby</text>
+			<text x="127.8215" y="216.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,432) scale(1,-1)">PostgreSQL | Zone B</text>
+			<rect x="390" y="340" width="220" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,94%,96%); fill-rule: evenodd;"/>
+			<text x="451.237" y="375.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,750) scale(1,-1)">Event publisher</text>
+			<text x="437.9435" y="356.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,712) scale(1,-1)">Proposed outbox delivery</text>
+			<rect x="710" y="340" width="220" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,96%,93%); fill-rule: evenodd;"/>
+			<text x="782.079" y="375.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,750) scale(1,-1)">M-A primary</text>
+			<text x="773.327" y="356.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,712) scale(1,-1)">MongoDB | Zone A</text>
+			<rect x="650" y="200" width="140" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,96%,93%); fill-rule: evenodd;"/>
+			<text x="673.408" y="235.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,470) scale(1,-1)">M-B secondary</text>
+			<text x="673.327" y="216.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,432) scale(1,-1)">MongoDB | Zone B</text>
+			<rect x="830" y="200" width="140" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(92%,96%,93%); fill-rule: evenodd;"/>
+			<text x="853.408" y="235.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,470) scale(1,-1)">M-C secondary</text>
+			<text x="853.0245" y="216.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,432) scale(1,-1)">MongoDB | Zone C</text>
+			<rect x="390" y="70" width="220" height="60" rx="6" ry="6" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.1; fill: rgb(96%,94%,90%); fill-rule: evenodd;"/>
+			<text x="458.8225" y="105.0" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,210) scale(1,-1)">Backup store</text>
+			<text x="437.64099999999996" y="86.0" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,172) scale(1,-1)">Isolated recovery location</text>
+			<polyline points="500 580, 500 531" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="500 531, 496.5 538, 503.5 538" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="512" y="552" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,1104) scale(1,-1)">Requests</text>
+			<polyline points="500 475, 500 450, 180 450, 180 400" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="180 400, 176.5 407, 183.5 407" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="190" y="458" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,916) scale(1,-1)">Orders and payments</text>
+			<polyline points="500 475, 500 450, 820 450, 820 400" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="820 400, 816.5 407, 823.5 407" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="645" y="458" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,916) scale(1,-1)">Event history reads</text>
+			<polyline points="290 370, 390 370" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="390 370, 383 366.5, 383 373.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="304.536" y="385" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,770) scale(1,-1)">Outbox events</text>
+			<polyline points="610 370, 710 370" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="710 370, 703 366.5, 703 373.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="630.047" y="385" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,770) scale(1,-1)">Event writes</text>
+			<polyline points="180 340, 180 260" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="180 260, 176.5 267, 183.5 267" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="193" y="296" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,592) scale(1,-1)">Synchronous WAL</text>
+			<polyline points="820 340, 820 300, 720 300, 720 260" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="720 260, 716.5 267, 723.5 267" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<polyline points="820 340, 820 300, 900 300, 900 260" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polygon points="900 260, 896.5 267, 903.5 267" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="832" y="320" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,640) scale(1,-1)">Replication</text>
+			<polyline points="70 370, 30 370, 30 100, 390 100" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd; stroke-dasharray: 5, 4;"/>
+			<polygon points="390 100, 383 96.5, 383 103.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="124.7985" y="113" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,226) scale(1,-1)">Base backup and WAL archive</text>
+			<polyline points="930 370, 990 370, 990 100, 610 100" style="stroke: rgb(32%,41%,47%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd; stroke-dasharray: 5, 4;"/>
+			<polygon points="610 100, 617 96.5, 617 103.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,41%,47%); fill-rule: evenodd;"/>
+			<text x="733.775" y="113" style="font-family: Helvetica; font-size: 11px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,226) scale(1,-1)">Consistent MongoDB backup</text>
+			<text x="326.264" y="30" style="font-family: Helvetica; font-size: 12px;fill: rgb(12%,19%,24%); stroke:none;" transform="translate(0,60) scale(1,-1)">WAL means write-ahead log. Dashed arrows show backup paths.</text>
+		</g>
+	</g>
+</svg>

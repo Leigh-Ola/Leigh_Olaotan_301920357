@@ -1,5 +1,6 @@
--- MANUAL GUIDE: use a fresh step-10 database and TWO terminals, not this entire
--- file in one execution. The Python runner executes these same labelled blocks.
+-- MANUAL GUIDE: first run the P1 schema/seed and P3 workflows/transactions in a fresh database.
+-- Use TWO terminals. Do not execute this entire file at once.
+-- The Python runner executes these same labelled blocks.
 -- Connect with psql -X -U mit8103_admin -d mit8103_transactions inside the container.
 -- Use the README's A/B interleaving. Keep the connection open between blocks.
 -- BLOCK STOCK_A_BEGIN
